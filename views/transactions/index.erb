@@ -1,0 +1,15 @@
+<h2>This is all the Transactions page.</h2>
+
+
+<%  for transaction in @transactions %>
+<p> Transaction Unique ID: <%=transaction['amount'] %> </p>
+<p> Label: <%=transaction['label'] %> </p>
+<p> Logo: </p><img src="<%=transaction['logo']%>" alt="marchant logo">
+
+
+<hr />
+
+
+
+
+<% end %>

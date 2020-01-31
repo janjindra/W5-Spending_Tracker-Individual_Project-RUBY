@@ -1,0 +1,12 @@
+<h2>This is all the Tags page.</h2>
+
+
+<%  for tag in @tags %>
+<p> Label: <%=tag.label() %> </p>
+<p> Active: <%= tag.active %></p>
+<p> Logo: </p><img src="<%= tag.logo %>" alt="Groceries Logo">
+
+
+
+<hr />
+<% end %>

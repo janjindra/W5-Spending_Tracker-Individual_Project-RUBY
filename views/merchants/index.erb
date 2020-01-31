@@ -1,0 +1,12 @@
+<h2>This is all the Merchants page.</h2>
+
+
+<%  for merchant in @merchants %>
+<p> Merchant Name: <%=merchant.name() %> </p>
+<p> Active: <%= merchant.active %></p>
+<p> Logo: </p><img src="<%= merchant.logo %>" alt="Tesco Logo">
+
+
+
+<hr />
+<% end %>
