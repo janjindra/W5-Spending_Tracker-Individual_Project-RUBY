@@ -13,14 +13,14 @@ get '/transactions' do
 end
 
 get '/transactions/new' do
-  @transactions = Transaction.all
   @tags = Tag.all
   @merchants = Merchant.all
+  @transactions = Transaction.all
   erb(:"transactions/new")
 end
 
 post '/transactions' do
-  new_transaction = Transaction.new(params)
-  new_transaction.save
+  transaction = Transaction.new(params)
+  transaction.save
   redirect to("/transactions")
 end

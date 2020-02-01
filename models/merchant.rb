@@ -2,7 +2,8 @@ require_relative('../db/sql_runner.rb')
 
 class Merchant
 
-attr_accessor(:id, :name, :active, :logo)
+attr_accessor(:name, :active, :logo)
+attr_reader(:id)
 
   def initialize (db_hash)
     @id = db_hash['id'].to_i if db_hash['id']

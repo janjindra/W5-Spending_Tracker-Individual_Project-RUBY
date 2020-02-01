@@ -2,24 +2,28 @@
 
 <p>Please use the form below to enter a new transaction to your Spend Tracker:</p>
 
-<form class="" action="/transactions" method="post">
-  <label for="merchant">Merchant:</label>
+<form action="/transactions" method="post">
+  <label>
+  Select a zombie:
+    <select name="merchant_id">
+      <% for merchant in @merchants %>
+      <option value="<%= merchant.id %>"><%= merchant.name %></option>
+      <% end %>
+    </select>
+  </label>
 
-  <select class="select_merchant" name="merchant">
-    <% for merchant in @merchants %>
-<option value="<%=merchant.id %>" > <%=merchant.name %></option>
-<% end %>
-</select>
+  <label>
+    Select a victim:
+    <select name="tag_id">
+      <% for tag in @tags %>
+      <option value="<%= tag.id %>"><%= tag.label %></option>
+      <% end %>
+    </select>
+  </label>
 
-<label for="tag">Category:</label>
-<select class="select_label" name="label">
-  <% for tag in @tags %>
-<option value="<%=tag.id %>" > <%=tag.label %></option>
-<% end %>
-</select>
+  <label for="amount">Amount:
+  <input type="number" name="amount" value="">
+  </label>
 
-<label for="amount">Amount:</label>
-<input type="number" name="amount" value="">
-
-  <input type="submit" name="new_transaction" value="Submit new transaction">
+  <input class="new_tr_added" type='submit' value="Submit new">
 </form>

@@ -2,7 +2,8 @@ require_relative('../db/sql_runner')
 
 class Tag
 
-attr_accessor(:id, :label, :active, :logo)
+attr_accessor(:label, :active, :logo)
+attr_reader(:id)
 
 def initialize(db_hash)
   @id = db_hash['id'].to_i if db_hash['id']
