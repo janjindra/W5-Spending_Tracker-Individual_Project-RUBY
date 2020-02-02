@@ -4,10 +4,15 @@
 <%  for user in @user %>
 <p> User Unique ID (UUID): <%=user.id %><%= "TR9366" %> </p>
 <p> User Name: <%=user.name %> </p>
+
+<form method="get" action="/users/<%=user.id %>/edit">
+  <input type="submit"  value="Change your name">
+</form>
+
 <p> Budget: £<%=user.budget %> </p>
 
 <form method="get" action="/users/<%=user.id %>/edit">
-  <input type="submit"  value="Update this user">
+  <input type="submit"  value="Change your budget">
 </form>
 
 
