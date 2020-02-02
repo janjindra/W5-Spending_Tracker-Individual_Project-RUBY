@@ -2,21 +2,22 @@ require_relative('../db/sql_runner')
 
 class Transaction
 
-  attr_accessor(:merchant_id, :tag_id, :amount)
+  attr_accessor(:merchant_id, :tag_id, :amount, :user_id)
   attr_reader(:id)
 
   def initialize(db_hash)
     @id = db_hash['id'].to_i if db_hash['id']
     @merchant_id = db_hash['merchant_id'].to_i
     @tag_id = db_hash['tag_id'].to_i
+    @user_id = 1
     @amount = db_hash['amount'].to_f
   end
 
   #CRUD
   def save()
-    sql = "INSERT INTO transactions (merchant_id, tag_id, amount)
-    VALUES ($1, $2, $3) RETURNING *"
-    values = [@merchant_id, @tag_id, @amount]
+    sql = "INSERT INTO transactions (merchant_id, tag_id, user_id, amount)
+    VALUES ($1, $2, $3, $4) RETURNING *"
+    values = [@merchant_id, @tag_id, @user_id, @amount]
     transactions_data = SqlRunner.run(sql, values)
     @id = transactions_data.first()['id'].to_i
   end
@@ -33,8 +34,9 @@ class Transaction
   end
 
   def update()
-    sql = "UPDATE transactions SET (merchant_id, tag_id, amount) = ( $1, $2, $3 ) WHERE id = $4"
-    values = [@merchant_id, @tag_id, @amount, @id]
+    sql = "UPDATE transactions SET (merchant_id, tag_id, user_id, amount)
+    = ( $1, $2, $3, $4 ) WHERE id = $5"
+    values = [@merchant_id, @tag_id, @user_id, @amount, @id]
     SqlRunner.run(sql, values)
   end
 
@@ -62,6 +64,7 @@ class Transaction
       return Tag.new( results.first )
     end
 
+
     def Transaction.find( id )
     sql = "SELECT * FROM transactions WHERE id = $1"
     values = [id]
@@ -77,6 +80,22 @@ def Transaction.total()
   return total.values.first.first.to_f.round(2)
 end
 
+def Transaction.user_budget()
+sql = "SELECT budget FROM users WHERE id = 1"
+result = SqlRunner.run( sql )
+return result.values.first.first.to_f.round(2)
+end
+
+def Transaction.budget_message()
+  balance = Transaction.user_budget() - Transaction.total()
+  if balance > 0
+    return "You still have #{balance} to spend!"
+  elsif balance == 0
+    return "You've just used up all your budget!"
+  else
+    return "You are #{balance.abs} over your budget"
+end
+end
 
 
   ##----------------

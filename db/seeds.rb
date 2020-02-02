@@ -1,11 +1,21 @@
 require_relative( "../models/tag.rb" )
 require_relative( "../models/transaction.rb" )
 require_relative( "../models/merchant.rb" )
+require_relative( "../models/user.rb" )
 require("pry-byebug")
 
 Tag.all()
 Merchant.all()
 Transaction.all()
+User.all()
+
+@user1 = User.new({
+  'id' => 1,
+  'name' => 'Jan',
+  'budget' => 1000
+  })
+
+  @user1.save()
 
 @tesco = Merchant.new({
   'name' => 'Tesco',
@@ -35,6 +45,7 @@ Transaction.all()
     @transaction1 = Transaction.new({
       'merchant_id' => @tesco.id,
       'tag_id' => @groceries.id,
+      'user_id' => @user1.id,
       'amount' => 11.20
       })
 
@@ -43,6 +54,7 @@ Transaction.all()
       @transaction2 = Transaction.new({
         'merchant_id' => @tesco.id,
         'tag_id' => @groceries.id,
+        'user_id' => @user1.id,
         'amount' => 133.20
         })
 
@@ -51,10 +63,13 @@ Transaction.all()
         @transaction3 = Transaction.new({
           'merchant_id' => @lidl.id,
           'tag_id' => @groceries.id,
+          'user_id' => @user1.id,
           'amount' => 88
           })
 
           @transaction3.save()
+
+
 
 
         binding.pry

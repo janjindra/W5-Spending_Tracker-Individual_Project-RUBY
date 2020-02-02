@@ -14,6 +14,8 @@ get '/transactions' do
   # @merchants = Merchant.all
   @transactions = Transaction.all
   @total = Transaction.total
+  @budget = Transaction.user_budget
+  @message = Transaction.budget_message
   erb (:"transactions/index")
 end
 

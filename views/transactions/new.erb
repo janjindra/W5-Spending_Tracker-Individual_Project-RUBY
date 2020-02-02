@@ -7,7 +7,9 @@
   Select a merchant:
     <select name="merchant_id">
       <% for merchant in @merchants %>
+      <% if merchant.active == 't' %>
       <option value="<%= merchant.id %>"><%= merchant.name %></option>
+      <% end %>
       <% end %>
     </select>
   </label>
@@ -16,7 +18,9 @@
     Select a label:
     <select name="tag_id">
       <% for tag in @tags %>
+      <% if tag.active == 't' %>
       <option value="<%= tag.id %>"><%= tag.label %></option>
+      <% end %>
       <% end %>
     </select>
   </label>
