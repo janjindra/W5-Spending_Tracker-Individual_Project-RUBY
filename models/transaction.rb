@@ -2,7 +2,7 @@ require_relative('../db/sql_runner')
 
 class Transaction
 
-  attr_accessor(:merchant_id, :tag_id, :amount, :user_id)
+  attr_accessor(:merchant_id, :tag_id, :amount, :user_id, :time)
   attr_reader(:id)
 
   def initialize(db_hash)
@@ -11,13 +11,15 @@ class Transaction
     @tag_id = db_hash['tag_id'].to_i
     @user_id = 1
     @amount = db_hash['amount'].to_f
+    @time = Time.now
+    #TIME doc: https://www.tutorialspoint.com/ruby/ruby_date_time.htm
   end
 
   #CRUD
   def save()
-    sql = "INSERT INTO transactions (merchant_id, tag_id, user_id, amount)
-    VALUES ($1, $2, $3, $4) RETURNING *"
-    values = [@merchant_id, @tag_id, @user_id, @amount]
+    sql = "INSERT INTO transactions (merchant_id, tag_id, user_id, amount, time)
+    VALUES ($1, $2, $3, $4, $5) RETURNING *"
+    values = [@merchant_id, @tag_id, @user_id, @amount, @time]
     transactions_data = SqlRunner.run(sql, values)
     @id = transactions_data.first()['id'].to_i
   end
@@ -34,9 +36,9 @@ class Transaction
   end
 
   def update()
-    sql = "UPDATE transactions SET (merchant_id, tag_id, user_id, amount)
-    = ( $1, $2, $3, $4 ) WHERE id = $5"
-    values = [@merchant_id, @tag_id, @user_id, @amount, @id]
+    sql = "UPDATE transactions SET (merchant_id, tag_id, user_id, amount, time)
+    = ( $1, $2, $3, $4, $5 ) WHERE id = $6"
+    values = [@merchant_id, @tag_id, @user_id, @amount, @time, @id]
     SqlRunner.run(sql, values)
   end
 

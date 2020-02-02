@@ -28,5 +28,6 @@ CREATE TABLE transactions (
   user_id INT REFERENCES users(id),
   tag_id INT REFERENCES tags(id),-- ON DELETE CASCADE,
   merchant_id INT REFERENCES merchants(id),-- ON DELETE CASCADE,
-  amount FLOAT
+  amount FLOAT,
+  time TIMESTAMP
 );

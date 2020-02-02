@@ -42,12 +42,13 @@ User.all()
       })
 
     @user1.save()
-    
+
     @transaction1 = Transaction.new({
       'merchant_id' => @tesco.id,
       'tag_id' => @groceries.id,
       'user_id' => @user1.id,
-      'amount' => 11.20
+      'amount' => 11.20,
+      'time' => Time.now
       })
 
       @transaction1.save()
@@ -56,7 +57,8 @@ User.all()
         'merchant_id' => @tesco.id,
         'tag_id' => @groceries.id,
         'user_id' => @user1.id,
-        'amount' => 133.20
+        'amount' => 133.20,
+        'time' => Time.now
         })
 
         @transaction2.save()
@@ -65,7 +67,8 @@ User.all()
           'merchant_id' => @lidl.id,
           'tag_id' => @groceries.id,
           'user_id' => @user1.id,
-          'amount' => 88
+          'amount' => 88,
+          'time' => Time.now
           })
 
           @transaction3.save()
