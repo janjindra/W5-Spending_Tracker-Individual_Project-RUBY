@@ -18,15 +18,15 @@ CREATE TABLE tags (
 );
 
 CREATE TABLE users (
-  id INT PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   name VARCHAR(255),
   budget FLOAT
 );
 
 CREATE TABLE transactions (
   id SERIAL PRIMARY KEY,
+  user_id INT REFERENCES users(id),
   tag_id INT REFERENCES tags(id),-- ON DELETE CASCADE,
   merchant_id INT REFERENCES merchants(id),-- ON DELETE CASCADE,
-  user_id INT,
   amount FLOAT
 );

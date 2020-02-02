@@ -1,0 +1,19 @@
+<h2>You can update your details here</h2>
+
+
+<form action="/users/<%= @user.id %>" method="post">
+
+  <label for="name">Your Name:
+
+  <input type="text" name="name" value="<%= @user.name %>">
+
+  </label>
+
+  <label for="budget">Set your budget:
+
+  <input type="number" name="budget" value="<%= @user.budget %>">
+
+</label>
+
+  <input class="new_tr_added" type='submit' value="Submit this edit">
+</form>

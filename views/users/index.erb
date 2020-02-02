@@ -1,0 +1,15 @@
+<h2>This is all the Users page.</h2>
+
+
+<%  for user in @user %>
+<p> User Unique ID (UUID): <%=user.id %><%= "TR9366" %> </p>
+<p> User Name: <%=user.name %> </p>
+<p> Budget: £<%=user.budget %> </p>
+
+<form method="get" action="/users/<%=user.id %>/edit">
+  <input type="submit"  value="Update this user">
+</form>
+
+
+<hr />
+<% end %>

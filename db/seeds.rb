@@ -9,13 +9,7 @@ Merchant.all()
 Transaction.all()
 User.all()
 
-@user1 = User.new({
-  'id' => 1,
-  'name' => 'Jan',
-  'budget' => 1000
-  })
 
-  @user1.save()
 
 @tesco = Merchant.new({
   'name' => 'Tesco',
@@ -42,6 +36,13 @@ User.all()
 
     @groceries.save()
 
+    @user1 = User.new({
+      'name' => 'Jan',
+      'budget' => 1000
+      })
+
+    @user1.save()
+    
     @transaction1 = Transaction.new({
       'merchant_id' => @tesco.id,
       'tag_id' => @groceries.id,

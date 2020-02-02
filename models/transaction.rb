@@ -87,13 +87,13 @@ return result.values.first.first.to_f.round(2)
 end
 
 def Transaction.budget_message()
-  balance = Transaction.user_budget() - Transaction.total()
+  balance = (Transaction.user_budget() - Transaction.total()).round(2)
   if balance > 0
-    return "You still have #{balance} to spend!"
+    return "COOL! You still have #{balance} to spend!"
   elsif balance == 0
     return "You've just used up all your budget!"
   else
-    return "You are #{balance.abs} over your budget"
+    return "WARNING! You are #{balance.abs} over your budget"
 end
 end
 

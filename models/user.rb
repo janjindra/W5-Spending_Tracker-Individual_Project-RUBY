@@ -5,16 +5,16 @@ class User
 attr_accessor(:id, :name, :budget)
 
   def initialize (db_hash)
-    @id = 1
+    @id = db_hash['id'].to_i if db_hash['id']
     @name = db_hash['name']
     @budget = db_hash['budget'].to_f
   end
 
   #CRUD
   def save()
-    sql = "INSERT INTO users (id, name, budget)
-    VALUES ($1, $2, $3) RETURNING *"
-    values = [@id, @name, @budget]
+    sql = "INSERT INTO users (name, budget)
+    VALUES ($1, $2) RETURNING id"
+    values = [@name, @budget]
     users_data = SqlRunner.run(sql, values)
     @id = users_data.first()['id'].to_i
   end
@@ -31,8 +31,8 @@ attr_accessor(:id, :name, :budget)
   end
 
   def update()
-    sql = "UPDATE users SET (id, name, budget) = ( $1, $2, $3) WHERE id = $4"
-    values = [@id, @name, @budget]
+    sql = "UPDATE users SET (name, budget) = ( $1, $2) WHERE id = $3"
+    values = [@name, @budget, @id]
     SqlRunner.run(sql, values)
   end
 
@@ -44,6 +44,12 @@ attr_accessor(:id, :name, :budget)
   end
 
 #Other Methods
-
+def User.find( id )
+sql = "SELECT * FROM users WHERE id = $1"
+values = [id]
+user = SqlRunner.run( sql, values )
+result = User.new( user.first )
+return result
+end
 
 end
