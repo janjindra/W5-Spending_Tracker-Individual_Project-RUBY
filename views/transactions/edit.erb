@@ -1,0 +1,31 @@
+<h2>This is a page to edit 1 specific transaction.</h2>
+
+<h2>Form will follow here below,,,,,,,,,,,</h2>
+
+
+
+<form action="/transactions/<%=@transaction.id %>" method="post">
+  <label>
+  Select a merchant:
+    <select name="merchant_id">
+      <% for merchant in @merchants %>
+      <option value="<%= merchant.id %>"><%= merchant.name %></option>
+      <% end %>
+    </select>
+  </label>
+
+  <label>
+      Select a label:
+      <select name="tag_id">
+        <% for tag in @tags %>
+        <option value="<%= tag.id %>"><%= tag.label %></option>
+        <% end %>
+      </select>
+    </label>
+
+  <label for="amount">Amount:
+  <input type="number" name="amount" value="<%= @transaction.amount %>">
+  </label>
+
+  <input class="new_tr_added" type='submit' value="Submit this edit">
+</form>

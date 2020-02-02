@@ -1,0 +1,24 @@
+<h2>Here you can add or delete a tag.</h2>
+
+<p>Please use the form below to enter a new tag to your Spend Tracker:</p>
+
+<form action="/tags" method="post">
+  <label for="label">Label:
+  <input type="text" name="label" value="">
+  </label>
+
+  <label>
+  Select status:
+    <select name="active">
+      <option value="true">active</option>
+      <option value="false">deactivated</option>
+    </select>
+  </label>
+
+  <label for="logo">Logo URL:
+  <input type="text" name="logo" value="">
+  </label>
+
+
+  <input class="new_tag_added" type='submit' value="Submit new">
+</form>

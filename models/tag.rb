@@ -46,7 +46,13 @@ def delete()
 end
 
 #Other Methods
-
+def Tag.find( id )
+sql = "SELECT * FROM tags WHERE id = $1"
+values = [id]
+trans = SqlRunner.run( sql, values )
+result = Tag.new( trans.first )
+return result
+end
 
 
 

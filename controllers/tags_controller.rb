@@ -12,19 +12,38 @@ get '/tags' do
   erb (:"tags/index")
 end
 
-# get '/bitings/new' do
-#   @victims = Victim.all
-#   @zombies = Zombie.all
-#   erb(:"bitings/new")
-# end
-#
-# post '/bitings' do
-#   biting = Biting.new(params)
-#   biting.save
-#   redirect to("/bitings")
-# end
-#
-# post '/bitings/:id/delete' do
-#   Biting.destroy(params[:id])
-#   redirect to("/bitings")
-# end
+
+#Displays a Merchant form to submit a new Merchant
+get '/tags/new' do
+  @tags = Tag.all
+  erb(:"tags/new")
+end
+
+#Saves a new transaction to the DB
+post '/tags' do
+  tag = Tag.new(params)
+  tag.save
+  redirect to("/tags")
+end
+
+
+#EDIT
+get '/tags/:id/edit' do
+  @tag = Tag.find(params[:id])
+  @tags = Tag.all
+  erb(:"tags/edit")
+end
+
+post '/tags/:id' do
+@tag = Tag.new(params)  #??????
+@tag.update()
+erb(:"tags/update")
+end
+
+#DELETE
+
+post '/tags/:id/delete' do
+@tag = Tag.find(params[:id])
+@tag.delete()
+redirect to("/tags")
+end

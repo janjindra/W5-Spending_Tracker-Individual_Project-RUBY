@@ -2,14 +2,22 @@
 
 
 <%  for transaction in @transactions %>
-<p> Transaction Unique ID: <%=transaction['amount'] %> </p>
-<p> Label: <%=transaction['label'] %> </p>
-<p> Logo: </p><img src="<%=transaction['logo']%>" alt="marchant logo">
+<p> Transaction Unique ID: <%=transaction.id %> </p>
+<p> Label: <%=transaction.tag.label %> </p>
+<p> Merchant: <%=transaction.merchant.name %> </p>
+<p>Amount: <%=transaction.amount %> </p>
+<p> Logo: </p><img src="<%=transaction.merchant.logo%>" alt="marchant logo">
 
+
+<form method="get" action="/transactions/<%= transaction.id %>/edit">
+  <input type="submit"  value="Update this trans">
+</form>
+
+<form method="post" action="/transactions/<%= transaction.id %>/delete">
+  <input type="submit"  value="Delete this trans">
+</form>
 
 <hr />
-
-
-
-
 <% end %>
+
+<h2>TOTAL: <%=@total%> </h2>

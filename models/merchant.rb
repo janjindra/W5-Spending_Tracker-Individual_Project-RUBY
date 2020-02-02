@@ -47,5 +47,20 @@ def delete()
 end
 #Other methods:
 
+def Merchant.find( id )
+sql = "SELECT * FROM merchants WHERE id = $1"
+values = [id]
+trans = SqlRunner.run( sql, values )
+result = Merchant.new( trans.first )
+return result
+end
+
+# def Merchant.find_merchant_by_id(id)
+#   sql = "SELECT * FROM merchants
+#   WHERE id = $1"
+#   values = [id]
+#   full_details_for_an_id = SqlRunner.run(sql, values)
+#   return Merchant.new(full_details_for_an_id.first)
+# end
 
 end

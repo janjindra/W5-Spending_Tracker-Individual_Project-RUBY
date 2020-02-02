@@ -4,9 +4,17 @@
 <%  for merchant in @merchants %>
 <p> Merchant Name: <%=merchant.name() %> </p>
 <p> Active: <%= merchant.active %></p>
-<p> Logo: </p><img src="<%= merchant.logo %>" alt="Tesco Logo">
+<p> Logo: </p><img src="<%= merchant.logo %>" alt="Merchant logo">
 
 
+
+<form method="get" action="/merchants/<%= merchant.id %>/edit">
+  <input type="submit"  value="Update this merchant">
+</form>
+
+<form method="post" action="/merchants/<%= merchant.id %>/delete">
+  <input type="submit"  value="Delete this merchant">
+</form>
 
 <hr />
 <% end %>

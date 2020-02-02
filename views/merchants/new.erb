@@ -1,0 +1,26 @@
+<h2>Here you can add or delete a merchant.</h2>
+
+<p>Please use the form below to enter a new merchant to your Spend Tracker:</p>
+
+<form action="/merchants" method="post">
+  <label for="name">Name:
+  <input type="text" name="name" value="">
+  </label>
+
+  <label>
+  Select status:
+    <select name="active">
+      <option value="true">active</option>
+      <option value="false">deactivated</option>
+    </select>
+  </label>
+
+  <label for="logo">Logo URL:
+  <input type="text" name="logo" value="">
+  </label>
+
+
+
+
+  <input class="new_tr_added" type='submit' value="Submit new">
+</form>

@@ -4,7 +4,7 @@
 
 <form action="/transactions" method="post">
   <label>
-  Select a zombie:
+  Select a merchant:
     <select name="merchant_id">
       <% for merchant in @merchants %>
       <option value="<%= merchant.id %>"><%= merchant.name %></option>
@@ -13,7 +13,7 @@
   </label>
 
   <label>
-    Select a victim:
+    Select a label:
     <select name="tag_id">
       <% for tag in @tags %>
       <option value="<%= tag.id %>"><%= tag.label %></option>

@@ -4,8 +4,15 @@
 <%  for tag in @tags %>
 <p> Label: <%=tag.label() %> </p>
 <p> Active: <%= tag.active %></p>
-<p> Logo: </p><img src="<%= tag.logo %>" alt="Groceries Logo">
+<p> Logo: </p><img src="<%= tag.logo %>" alt="Tag Logo">
 
+<form method="get" action="/tags/<%= tag.id %>/edit">
+  <input type="submit"  value="Update this tag">
+</form>
+
+<form method="post" action="/tags/<%= tag.id %>/delete">
+  <input type="submit"  value="Delete this tag">
+</form>
 
 
 <hr />

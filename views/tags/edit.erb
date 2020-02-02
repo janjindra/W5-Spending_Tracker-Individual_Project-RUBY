@@ -1,0 +1,25 @@
+<h2>Here you can add or delete a tag.</h2>
+
+<p>Please use the form below to enter a new tag to your Spend Tracker:</p>
+
+<form action="/tags/<%=@tag.id %>" method="post">
+  <label for="name">Label:
+  <input type="text" name="label" value="<%=@tag.label%>">
+  </label>
+
+  <label>
+  Select status:
+    <select name="active">
+      <option <%= "selected" if @tag.active == "t" %> value="true">active</option>
+      <option <%= "selected" if @tag.active == "f" %> value="false">deactivated</option>
+    </select>
+  </label>
+
+  <label for="logo">Logo URL:
+  <input type="text" name="logo" value="<%=@tag.logo%>">
+  </label>
+
+
+
+  <input class="new_tr_added" type='submit' value="Confirm edits">
+</form>

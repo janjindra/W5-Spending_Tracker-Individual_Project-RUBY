@@ -15,6 +15,15 @@ Transaction.all()
 
   @tesco.save()
 
+  @lidl = Merchant.new({
+    'name' => 'Lidl',
+    'active' => true,
+    'logo' => 'https://cdn.iconscout.com/icon/free/png-256/lidl-282519.png'
+    })
+
+    @lidl.save()
+
+
   @groceries = Tag.new({
     'label' => 'groceries',
     'active' => true,
@@ -38,6 +47,14 @@ Transaction.all()
         })
 
         @transaction2.save()
+
+        @transaction3 = Transaction.new({
+          'merchant_id' => @lidl.id,
+          'tag_id' => @groceries.id,
+          'amount' => 88
+          })
+
+          @transaction3.save()
 
 
         binding.pry
