@@ -57,6 +57,9 @@ end
 get '/transactions/analytics' do
   @transactions_by_time = Transaction.transactions_ordered_by_time
   @month_names=Transaction.distinct_months
+  @year_names=Transaction.distinct_years
+  @total = Transaction.total
+  @yearmonths=Transaction.distinct_yearmonths
   erb(:"transactions/analytics")
 end
 
@@ -70,18 +73,31 @@ get '/transactions/analytics/month' do
 end
 
 #ANALYTICS - filter month
-get '/transactions/analytics/month/:month/table' do
-  @transaction = Transaction.find_month_num(params[:month])
+get '/transactions/analytics/month/:year/:month/table' do
+  @transaction = Transaction.find_month_num(params[:year],params[:month])
   @transactions_by_time = Transaction.transactions_ordered_by_time
   @month_names=Transaction.distinct_months
-  @month_nums=Transaction.distinct_months_num
-
+  @year_names=Transaction.distinct_years
+  @yearmonths=Transaction.distinct_yearmonths
   @total = Transaction.total
   @total_by_month = Transaction.total_by_month(params[:month])
   @budget = Transaction.user_budget
   @message = Transaction.budget_message
   erb(:"transactions/analytics-m-table")
 end
+
+# get '/transactions/analytics/month/:year/:month/table' do
+#   @transaction = Transaction.find_month_num(params[:year],params[:month])
+#   @transactions_by_time = Transaction.transactions_ordered_by_time
+#   @month_names=Transaction.distinct_months
+#   @year_names=Transaction.distinct_years
+#   @yearmonths=Transaction.distinct_yearmonths
+#   @total = Transaction.total
+#   @total_by_month = Transaction.total_by_month(params[:month])
+#   @budget = Transaction.user_budget
+#   @message = Transaction.budget_message
+#   erb(:"transactions/analytics-m-table")
+# end
 
 get '/transactions/analytics/allbytime' do
   @transactions_by_time = Transaction.transactions_ordered_by_time

@@ -6,12 +6,16 @@
     <input type="submit"  value="ALL TRANSACTION BY TIME">
     </form>
   </td>
-  <%  for month in @month_names %>
+
+
+  <%  for yearmonth in @yearmonths %>
+
     <td>
-      <form method="get" action="/transactions/analytics/month/<%=Date::MONTHNAMES.index(month).to_s%>/table">
-      <input type="submit"  value="<%= month %>">
+      <form method="get" action="/transactions/analytics/month/<%=yearmonth%>/table">
+      <input type="submit"  value="<%= yearmonth %>">
       </form>
   <% end %>
+
     </td>
   </tr>
 </table>
@@ -28,7 +32,7 @@
 
   </tr>
   <% for item in @transactions_by_time %>
-<% if @transaction.first['month_num'].to_i == item['month_num'].to_i  %>
+<% if (@transaction.first['month_num'].to_i == item['month_num'].to_i && @transaction.first['year_num'].to_i == item['year_num'].to_i) %>
   <tr>
     <td><img src="<%= item['m_logo'] %>" alt="Merchant Logo"></td>
     <td><%= item['merchant_name'] %></td>
@@ -42,9 +46,9 @@
 </table>
 
 <br><br>
-<h2>All-time total: <%=@total%> </h2>
-<h2>Month total: <%=@total_by_month%> </h2>
-<h2>Budget: <%=@budget%> </h2>
+<h2>All-time total: £<%=@total%> </h2>
+<h2>Month total: £<%=@total_by_month%> </h2>
+<h2>Monthly Budget: £<%=@budget%> </h2>
 <h2><%=@message%></h2>
 <br><br>
 <br><br>

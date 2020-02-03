@@ -113,7 +113,6 @@ class Transaction
     return trans.map{|tr| tr}
   end
 
-# ssssssssssssssssssssssssssssssssssss
 
   def Transaction.user_budget()
     sql = "SELECT budget FROM users WHERE id = 1"
@@ -140,6 +139,7 @@ def Transaction.transactions_ordered_by_time()
   tr.time as time,
   to_char(tr.time,'Month') as month_name,
   EXTRACT(MONTH FROM tr.time) as month_num,
+  EXTRACT(YEAR FROM tr.time) as year_num,
   m.logo as m_logo,
   ta.logo as t_logo
   FROM transactions tr
@@ -173,21 +173,45 @@ def Transaction.distinct_months_num #numbers
   return distinct_months_num
 end
 
-def Transaction.find_month_num(month_num)
+def Transaction.distinct_years
+  distinct_years = []
+  array_of_all_transactions = Transaction.transactions_ordered_by_time()
+  for hash in array_of_all_transactions
+    if distinct_years.include?(hash['year_num'].strip) == false
+      distinct_years.push(hash['year_num'].strip)
+    end
+  end
+  return distinct_years
+end
+
+def Transaction.distinct_yearmonths
+  distinct_yearmonths = []
+  array_of_all_transactions = Transaction.transactions_ordered_by_time()
+  for hash in array_of_all_transactions
+    if distinct_yearmonths.include?(hash['year_num'].strip+"/"+hash['month_num'].strip) == false
+      distinct_yearmonths.push(hash['year_num'].strip+"/"+hash['month_num'].strip)
+    end
+  end
+  return distinct_yearmonths
+end
+
+
+def Transaction.find_month_num(year_num, month_num)
   sql = "SELECT u.name as user_name, m.name as merchant_name,
   tr.amount,
   ta.label,
   tr.time as time,
   to_char(tr.time,'Month') as month_name,
   EXTRACT(MONTH FROM tr.time) as month_num,
+  EXTRACT(YEAR FROM tr.time) as year_num,
   m.logo as m_logo,
   ta.logo as t_logo
    FROM transactions tr
     INNER JOIN merchants m ON m.id=tr.merchant_id
     INNER JOIN tags ta ON ta.id=tr.tag_id
     INNER JOIN users u ON u.id=tr.user_id
-  WHERE EXTRACT(MONTH FROM tr.time)= $1"
-  values = [month_num]
+  WHERE (EXTRACT(YEAR FROM tr.time)= $1 AND EXTRACT(MONTH FROM tr.time)= $2)"
+  values = [year_num, month_num]
   trans = SqlRunner.run( sql, values )
   return trans.map{|tr| tr}
   # result = Transaction.new( trans.first )

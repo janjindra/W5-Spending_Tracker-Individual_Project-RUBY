@@ -6,12 +6,18 @@
     <input type="submit"  value="ALL TRANSACTION BY TIME">
     </form>
   </td>
-  <%  for month in @month_names %>
+
+  <%  for yearmonth in @yearmonths %>
+
     <td>
-      <form method="get" action="/transactions/analytics/month/<%=Date::MONTHNAMES.index(month).to_s%>/table">
-      <input type="submit"  value="<%= month %>">
+      <form method="get" action="/transactions/analytics/month/<%=yearmonth%>/table">
+      <input type="submit"  value="<%= (yearmonth.split('/').first).concat(" ",Date::MONTHNAMES[(yearmonth.split('/').last).to_i])       %>">
+
+
+
       </form>
   <% end %>
+
     </td>
   </tr>
 </table>
@@ -39,3 +45,4 @@
   <% end %>
 </table>
 <br><br>
+<h2>All-time total: £<%=@total%> </h2>
