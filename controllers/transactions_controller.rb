@@ -9,9 +9,6 @@ also_reload( '../models/*' )
 
 #Displays all transaction details
 get '/transactions' do
-  # @transactions = Transaction.full_details
-  # @tags = Tag.all
-  # @merchants = Merchant.all
   @transactions = Transaction.all
   @total = Transaction.total
   @budget = Transaction.user_budget
@@ -50,12 +47,40 @@ post '/transactions/:id' do
 erb(:"transactions/update")
 end
 
-#DELETE
-
+#DELETE:
 post '/transactions/:id/delete' do
 @transaction = Transaction.find(params[:id])
 @transaction.delete()
 redirect to("/transactions")
+end
+
+get '/transactions/analytics' do
+  @transactions_by_time = Transaction.transactions_ordered_by_time
+  @month_names=Transaction.distinct_months
+  erb(:"transactions/analytics")
+end
+
+#ANALYTICS - order by time:
+get '/transactions/analytics/month' do
+  @transactions_by_time = Transaction.transactions_ordered_by_time
+  @month_names=Transaction.distinct_months
+  @month_nums=Transaction.distinct_months_num
+  erb(:"transactions/analytics-month")
+end
+
+#ANALYTICS - filter month
+get '/transactions/analytics/month/:month/table' do
+  @transaction = Transaction.find_month_num(params[:month])
+  @transactions_by_time = Transaction.transactions_ordered_by_time
+  @month_names=Transaction.distinct_months
+  @month_nums=Transaction.distinct_months_num
+  erb(:"transactions/analytics-m-table")
+end
+
+get '/transactions/analytics/allbytime' do
+  @transactions_by_time = Transaction.transactions_ordered_by_time
+  @month_names=Transaction.distinct_months
+  erb(:"transactions/analytics-bytime")
 end
 
 #===============================

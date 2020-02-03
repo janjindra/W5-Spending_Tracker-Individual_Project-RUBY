@@ -51,23 +51,23 @@ class Transaction
   #Other Methods
 
   def merchant()
-      sql = "SELECT * FROM merchants
-      WHERE id = $1"
-      values = [@merchant_id]
-      results = SqlRunner.run( sql, values )
-      return Merchant.new( results.first )
-    end
+    sql = "SELECT * FROM merchants
+    WHERE id = $1"
+    values = [@merchant_id]
+    results = SqlRunner.run( sql, values )
+    return Merchant.new( results.first )
+  end
 
-    def tag()
-      sql = "SELECT * FROM tags
-      WHERE id = $1"
-      values = [@tag_id]
-      results = SqlRunner.run( sql, values )
-      return Tag.new( results.first )
-    end
+  def tag()
+    sql = "SELECT * FROM tags
+    WHERE id = $1"
+    values = [@tag_id]
+    results = SqlRunner.run( sql, values )
+    return Tag.new( results.first )
+  end
 
 
-    def Transaction.find( id )
+  def Transaction.find( id )
     sql = "SELECT * FROM transactions WHERE id = $1"
     values = [id]
     trans = SqlRunner.run( sql, values )
@@ -75,30 +75,92 @@ class Transaction
     return result
   end
 
-def Transaction.total()
-  sql = "SELECT sum(amount)
-  FROM transactions"
-  total = SqlRunner.run(sql)
-  return total.values.first.first.to_f.round(2)
+
+  def Transaction.total()
+    sql = "SELECT sum(amount)
+    FROM transactions"
+    total = SqlRunner.run(sql)
+    return total.values.first.first.to_f.round(2)
+  end
+
+  def Transaction.user_budget()
+    sql = "SELECT budget FROM users WHERE id = 1"
+    result = SqlRunner.run( sql )
+    return result.values.first.first.to_f.round(2)
+  end
+
+  def Transaction.budget_message()
+    balance = (Transaction.user_budget() - Transaction.total()).round(2)
+    if balance > 0
+      return "COOL! You still have £#{balance} to spend!"
+    elsif balance == 0
+      return "You've just used up all your budget!"
+    else
+      return "WARNING! You are £#{balance.abs} over your budget"
+    end
+  end
+
+  #Analytics
+def Transaction.transactions_ordered_by_time()
+  sql = "SELECT u.name as user_name, m.name as merchant_name,
+  tr.amount,
+  ta.label,
+  tr.time as time,
+  to_char(tr.time,'Month') as month_name,
+  EXTRACT(MONTH FROM tr.time) as month_num,
+  m.logo as m_logo,
+  ta.logo as t_logo
+  FROM transactions tr
+    INNER JOIN merchants m ON m.id=tr.merchant_id
+    INNER JOIN tags ta ON ta.id=tr.tag_id
+    INNER JOIN users u ON u.id=tr.user_id
+    ORDER BY tr.time desc, m.name, ta.label, tr.amount"
+    transactions_ordered_by_time_list = SqlRunner.run(sql)
+    return transactions_ordered_by_time_list.map{|tr| tr}
+  end
+
+def Transaction.distinct_months #names
+  distinct_months = []
+  array_of_all_transactions = Transaction.transactions_ordered_by_time()
+  for hash in array_of_all_transactions
+    if distinct_months.include?(hash['month_name'].strip) == false
+      distinct_months.push(hash['month_name'].strip)
+    end
+  end
+  return distinct_months
 end
 
-def Transaction.user_budget()
-sql = "SELECT budget FROM users WHERE id = 1"
-result = SqlRunner.run( sql )
-return result.values.first.first.to_f.round(2)
+def Transaction.distinct_months_num #numbers
+  distinct_months_num = []
+  array_of_all_transactions = Transaction.transactions_ordered_by_time()
+  for hash in array_of_all_transactions
+    if distinct_months_num.include?(hash['month_num'].strip) == false
+      distinct_months_num.push(hash['month_num'].strip)
+    end
+  end
+  return distinct_months_num
 end
 
-def Transaction.budget_message()
-  balance = (Transaction.user_budget() - Transaction.total()).round(2)
-  if balance > 0
-    return "COOL! You still have £#{balance} to spend!"
-  elsif balance == 0
-    return "You've just used up all your budget!"
-  else
-    return "WARNING! You are £#{balance.abs} over your budget"
+def Transaction.find_month_num(month_num)
+  sql = "SELECT u.name as user_name, m.name as merchant_name,
+  tr.amount,
+  ta.label,
+  tr.time as time,
+  to_char(tr.time,'Month') as month_name,
+  EXTRACT(MONTH FROM tr.time) as month_num,
+  m.logo as m_logo,
+  ta.logo as t_logo
+   FROM transactions tr
+    INNER JOIN merchants m ON m.id=tr.merchant_id
+    INNER JOIN tags ta ON ta.id=tr.tag_id
+    INNER JOIN users u ON u.id=tr.user_id
+  WHERE EXTRACT(MONTH FROM tr.time)= $1"
+  values = [month_num]
+  trans = SqlRunner.run( sql, values )
+  return trans.map{|tr| tr}
+  # result = Transaction.new( trans.first )
+  # return result
 end
-end
-
 
   ##----------------
 

@@ -1,0 +1,42 @@
+<h2>This is an Analytics page.</h2>
+
+<h3>Filter transactions by month. </h3>
+
+
+<%  for month in @month_names %>
+
+<form method="get" action="/transactions/analytics/month/<%=Date::MONTHNAMES.index(month).to_s%>/table">
+
+<input type="submit"  value="FILTER on <%= month %>">
+
+</form>
+  <% end %>
+
+<br><br>
+
+
+<table>
+  <tr>
+    <th>Merchant logo</th>
+    <th>Merchant Name</th>
+    <th>Amount</th>
+    <th>Time</th>
+    <th>Category</th>
+    <th>Category logo</th>
+
+  </tr>
+  <% for item in @transactions_by_time %>
+
+  <tr>
+    <td><img src="<%= item['m_logo'] %>" alt="Merchant Logo"></td>
+    <td><%= item['merchant_name'] %></td>
+    <td><%= item['amount'] %></td>
+    <td><%= item['time'] %></td>
+    <td><%= item['label'] %></td>
+    <td><img src="<%= item['t_logo'] %>" alt="Tag Logo"></td>
+  </tr>
+  <% end %>
+</table>
+
+<br><br>
+<br><br>

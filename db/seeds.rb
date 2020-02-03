@@ -4,10 +4,6 @@ require_relative( "../models/merchant.rb" )
 require_relative( "../models/user.rb" )
 require("pry-byebug")
 
-Tag.all()
-Merchant.all()
-Transaction.all()
-User.all()
 
 
 
@@ -63,6 +59,7 @@ User.all()
 
         @transaction2.save()
 
+
         @transaction3 = Transaction.new({
           'merchant_id' => @lidl.id,
           'tag_id' => @groceries.id,
@@ -73,8 +70,30 @@ User.all()
 
           @transaction3.save()
 
+          @transaction2.time = Time.new(2018, 10, 31)
+          @transaction2.update()
+
+          @transaction3.time = Time.new(2019, 5, 22)
+          @transaction3.update()
+
+          @transaction4 = Transaction.new({
+            'merchant_id' => @lidl.id,
+            'tag_id' => @groceries.id,
+            'user_id' => @user1.id,
+            'amount' => 1111,
+            'time' => Time.now
+            })
+
+            @transaction4.save()
+
+            @transaction4.time = Time.new(2020, 02, 01)
+            @transaction4.update()
 
 
+          Tag.all()
+          Merchant.all()
+          Transaction.all()
+          User.all()
 
         binding.pry
         nil
