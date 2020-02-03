@@ -169,6 +169,17 @@ require("pry-byebug")
                                     @transaction6.time = Time.new(2019, 04, 22)
                                     @transaction6.update()
 
+                                    @transaction7 = Transaction.new({
+                                      'merchant_id' => @cineworld.id,
+                                      'tag_id' => @entertainment.id,
+                                      'user_id' => @user1.id,
+                                      'amount' => 9,
+                                      'time' => Time.now
+                                      })
+                                      @transaction7.save()
+                                      @transaction7.time = Time.new(2019, 02, 22)
+                                      @transaction7.update()
+
                                 Tag.all()
                                 Merchant.all()
                                 Transaction.all()

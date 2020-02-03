@@ -60,6 +60,7 @@ get '/transactions/analytics' do
   erb(:"transactions/analytics")
 end
 
+#### ***** TO BE DELETED ****** ###########
 #ANALYTICS - order by time:
 get '/transactions/analytics/month' do
   @transactions_by_time = Transaction.transactions_ordered_by_time
@@ -74,12 +75,20 @@ get '/transactions/analytics/month/:month/table' do
   @transactions_by_time = Transaction.transactions_ordered_by_time
   @month_names=Transaction.distinct_months
   @month_nums=Transaction.distinct_months_num
+
+  @total = Transaction.total
+  @total_by_month = Transaction.total_by_month(params[:month])
+  @budget = Transaction.user_budget
+  @message = Transaction.budget_message
   erb(:"transactions/analytics-m-table")
 end
 
 get '/transactions/analytics/allbytime' do
   @transactions_by_time = Transaction.transactions_ordered_by_time
   @month_names=Transaction.distinct_months
+  @total = Transaction.total
+  @budget = Transaction.user_budget
+  @message = Transaction.budget_message
   erb(:"transactions/analytics-bytime")
 end
 

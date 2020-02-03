@@ -83,6 +83,38 @@ class Transaction
     return total.values.first.first.to_f.round(2)
   end
 
+  def Transaction.total_by_month(month_num)
+    sql = "SELECT sum(amount), EXTRACT(MONTH FROM time) as month
+    FROM transactions
+    WHERE EXTRACT(MONTH FROM time)= $1
+    GROUP BY month"
+    values = [month_num]
+    total_by_month = SqlRunner.run(sql,values)
+    return total_by_month.map{|tr| tr}.first['sum'].to_f.round(2)
+  end
+
+
+  def Transaction.find_month_num(month_num)
+    sql = "SELECT u.name as user_name, m.name as merchant_name,
+    tr.amount,
+    ta.label,
+    tr.time as time,
+    to_char(tr.time,'Month') as month_name,
+    EXTRACT(MONTH FROM tr.time) as month_num,
+    m.logo as m_logo,
+    ta.logo as t_logo
+     FROM transactions tr
+      INNER JOIN merchants m ON m.id=tr.merchant_id
+      INNER JOIN tags ta ON ta.id=tr.tag_id
+      INNER JOIN users u ON u.id=tr.user_id
+    WHERE EXTRACT(MONTH FROM tr.time)= $1"
+    values = [month_num]
+    trans = SqlRunner.run( sql, values )
+    return trans.map{|tr| tr}
+  end
+
+# ssssssssssssssssssssssssssssssssssss
+
   def Transaction.user_budget()
     sql = "SELECT budget FROM users WHERE id = 1"
     result = SqlRunner.run( sql )

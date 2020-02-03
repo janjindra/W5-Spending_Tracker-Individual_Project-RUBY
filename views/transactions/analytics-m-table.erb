@@ -1,18 +1,21 @@
-<h2>This is Analytics page per month.</h2>
+<h2>Your Analytics</h2>
 
-<h3>Filter transactions by month. </h3>
-
-
-<%  for month in @month_names %>
-
-<form method="get" action="/transactions/analytics/month/<%= Date::MONTHNAMES.index(month).to_s%>/table">
-
-<input type="submit"  value="<%=month%>">
-</form>
+<table>
+  <tr><p>Filter by:</p>
+    <td><form method="get" action="/transactions/analytics/allbytime">
+    <input type="submit"  value="ALL TRANSACTION BY TIME">
+    </form>
+  </td>
+  <%  for month in @month_names %>
+    <td>
+      <form method="get" action="/transactions/analytics/month/<%=Date::MONTHNAMES.index(month).to_s%>/table">
+      <input type="submit"  value="<%= month %>">
+      </form>
   <% end %>
-
-<br><br>
-
+    </td>
+  </tr>
+</table>
+<br>
 
 <table>
   <tr>
@@ -38,5 +41,11 @@
     <% end %>
 </table>
 
+<br><br>
+<h2>All-time total: <%=@total%> </h2>
+<h2>Month total: <%=@total_by_month%> </h2>
+<h2>Budget: <%=@budget%> </h2>
+<h2><%=@message%></h2>
+<br><br>
 <br><br>
 <br><br>
