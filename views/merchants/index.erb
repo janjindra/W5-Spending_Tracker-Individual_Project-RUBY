@@ -2,6 +2,7 @@
 
 
 <%  for merchant in @merchants %>
+<p>ID: <%=merchant.id %></p>
 <p> Merchant Name: <%=merchant.name() %> </p>
 <p> Active: <%= merchant.active %></p>
 <p> Logo: </p><img src="<%= merchant.logo %>" alt="Merchant logo">

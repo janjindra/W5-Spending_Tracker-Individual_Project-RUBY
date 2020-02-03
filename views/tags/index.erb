@@ -2,6 +2,7 @@
 
 
 <%  for tag in @tags %>
+<p> ID: <%=tag.id() %> </p>
 <p> Label: <%=tag.label() %> </p>
 <p> Active: <%= tag.active %></p>
 <p> Logo: </p><img src="<%= tag.logo %>" alt="Tag Logo">

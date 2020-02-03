@@ -2,7 +2,7 @@
 
 
 <%  for transaction in @transactions %>
-<p> Transaction Unique ID: <%=transaction.id %> </p>
+<p> Transaction ID: <%=transaction.id %> </p>
 <p> Label: <%=transaction.tag.label %> </p>
 <p> Merchant: <%=transaction.merchant.name %> </p>
 <p>Amount: <%=transaction.amount %> </p>
@@ -21,6 +21,6 @@
 <hr />
 <% end %>
 
-<h2>TOTAL: <%=@total%> </h2>
+<h2>All-time total: <%=@total%> </h2>
 <h2>Budget: <%=@budget%> </h2>
 <h2><%=@message%></h2>
