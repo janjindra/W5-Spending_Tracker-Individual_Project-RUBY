@@ -2,24 +2,41 @@
 
 <table>
   <tr><p>Filter by:</p>
-    <td><form method="get" action="/transactions/analytics/allbytime">
-    <input type="submit"  value="ALL TRANSACTION BY TIME">
-    </form>
-  </td>
-
-
-  <%  for yearmonth in @yearmonths %>
-
+    <td>
+      <form method="get" action="/transactions/analytics/allbytime">
+    <input type="submit"  value="ALL TRANSACTIONS BY TIME">
+    </form></td></tr>
+  </table>
+  <br>
+  <table><tr>
+  <%  for tag in @tags %>
+      <td>
+        <form method="get" action="/transactions/analytics/tag/<%= tag.label %>/table">
+        <input type="submit"  value="<%= tag.label  %>">
+      </form>
+    <% end %>
+  </td></tr></table><br><table>
+<tr> <%  for yearmonth in @yearmonths %>
     <td>
       <form method="get" action="/transactions/analytics/month/<%=yearmonth%>/table">
-      <input type="submit"  value="<%= yearmonth %>">
+      <input type="submit"  value="<%= (yearmonth.split('/').first).concat(" ",Date::MONTHNAMES[(yearmonth.split('/').last).to_i])  %>">
       </form>
   <% end %>
-
-    </td>
-  </tr>
-</table>
+    </td></tr></table>
 <br>
+<br>
+<form method="post" action="/transactions/analytics/range">
+    <label for="date1">From</label>
+    <input name="date1" type="date"  value="date1">
+
+    <label for="date2">To</label>
+    <input name="date2"type="date"  value="date2">
+
+    <input type="submit"  value="Filter">
+</form>
+<br>
+
+<br><br>
 
 <table>
   <tr>

@@ -1,6 +1,7 @@
 require( 'sinatra' )
 require( 'sinatra/contrib/all' )
 require( 'pry-byebug' )
+require('time')
 require_relative( '../models/merchant.rb' )
 require_relative( '../models/tag.rb' )
 require_relative( '../models/transaction.rb' )
@@ -11,8 +12,8 @@ also_reload( '../models/*' )
 get '/transactions' do
   @transactions = Transaction.all
   @total = Transaction.total
-  @budget = Transaction.user_budget
-  @message = Transaction.budget_message
+  # @budget = Transaction.user_budget
+  # @message = Transaction.budget_message
   erb (:"transactions/index")
 end
 
@@ -54,10 +55,12 @@ post '/transactions/:id/delete' do
 redirect to("/transactions")
 end
 
+
 get '/transactions/analytics' do
   @transactions_by_time = Transaction.transactions_ordered_by_time
   @month_names=Transaction.distinct_months
-  @year_names=Transaction.distinct_years
+  @tags = Tag.all
+  # @year_names=Transaction.distinct_years
   @total = Transaction.total
   @yearmonths=Transaction.distinct_yearmonths
   erb(:"transactions/analytics")
@@ -67,8 +70,8 @@ end
 #ANALYTICS - order by time:
 get '/transactions/analytics/month' do
   @transactions_by_time = Transaction.transactions_ordered_by_time
-  @month_names=Transaction.distinct_months
-  @month_nums=Transaction.distinct_months_num
+  # @month_names=Transaction.distinct_months
+  # @month_nums=Transaction.distinct_months_num
   erb(:"transactions/analytics-month")
 end
 
@@ -76,55 +79,46 @@ end
 get '/transactions/analytics/month/:year/:month/table' do
   @transaction = Transaction.find_month_num(params[:year],params[:month])
   @transactions_by_time = Transaction.transactions_ordered_by_time
-  @month_names=Transaction.distinct_months
-  @year_names=Transaction.distinct_years
+  # @month_names=Transaction.distinct_months
+  # @year_names=Transaction.distinct_years
   @yearmonths=Transaction.distinct_yearmonths
   @total = Transaction.total
   @total_by_month = Transaction.total_by_month(params[:month])
   @budget = Transaction.user_budget
-  @message = Transaction.budget_message
+  @message = Transaction.budget_message(params[:month])
+  @tags = Tag.all
   erb(:"transactions/analytics-m-table")
 end
 
-# get '/transactions/analytics/month/:year/:month/table' do
-#   @transaction = Transaction.find_month_num(params[:year],params[:month])
-#   @transactions_by_time = Transaction.transactions_ordered_by_time
-#   @month_names=Transaction.distinct_months
-#   @year_names=Transaction.distinct_years
-#   @yearmonths=Transaction.distinct_yearmonths
-#   @total = Transaction.total
-#   @total_by_month = Transaction.total_by_month(params[:month])
-#   @budget = Transaction.user_budget
-#   @message = Transaction.budget_message
-#   erb(:"transactions/analytics-m-table")
-# end
-
+#ANALYTICS - all transaction by time, newest first.
 get '/transactions/analytics/allbytime' do
   @transactions_by_time = Transaction.transactions_ordered_by_time
-  @month_names=Transaction.distinct_months
+  # @month_names=Transaction.distinct_months
   @total = Transaction.total
-  @budget = Transaction.user_budget
-  @message = Transaction.budget_message
+  # @budget = Transaction.user_budget
+  # @message = Transaction.budget_message(params[:month])
+  @yearmonths=Transaction.distinct_yearmonths
+  @tags = Tag.all
   erb(:"transactions/analytics-bytime")
 end
 
-#===============================
+#ANALYTICS - all transactions within a specified time range.
+post '/transactions/analytics/range' do
+  @trans_per_range = Transaction.time(params[:date1], params[:date2])
+  @tags = Tag.all
+  @merchants = Merchant.all
+  @yearmonths=Transaction.distinct_yearmonths
+  erb(:"transactions/range")
+end
 
-# #Get transaction details for 1 specific transation ID:
-# get '/transactions/:id/edit' do
-#   @tags = Tag.all
-#   @merchants = Merchant.all
-#   #@transactions = Transaction.all
-#   @transaction = Transaction.find_transation_by_id(params[:id])
-#   #@tag = Tag.find_tag_by_id(params[:id])
-#   #@merchant = Merchant.find_merchant_by_id(params[:id])
-#   # @transaction = Transaction.full_details_by_id(params[:id])
-#   erb(:"transactions/edit")
-# end
-#
-# #Edits an existing transaction
-# post '/transactions/:id' do
-#   transaction = Transaction.new(params[:id].to_i)
-#   transaction.save
-#   erb(:"transactions/update")
-# end
+#ANALYTICS - all transaction by tag (category)
+get '/transactions/analytics/tag/:label/table' do
+  @transactions_by_tag = Transaction.find_tag(params[:label])
+  @total_by_tag = Transaction.total_by_tag(params[:label])
+  @budget = Transaction.user_budget
+  @message = Transaction.budget_message_tag(params[:label])
+  @tags = Tag.all
+  @yearmonths=Transaction.distinct_yearmonths
+  @total = Transaction.total
+  erb(:"transactions/analytics-t-table")
+end

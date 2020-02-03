@@ -1,4 +1,6 @@
 require_relative('../db/sql_runner')
+require('time')
+require( 'pry-byebug' )
 
 class Transaction
 
@@ -93,6 +95,15 @@ class Transaction
     return total_by_month.map{|tr| tr}.first['sum'].to_f.round(2)
   end
 
+  def Transaction.total_by_tag(label)
+    sql = "SELECT sum(transactions.amount)
+    FROM transactions
+    INNER JOIN tags ON tags.id=transactions.tag_id
+    WHERE tags.label = $1"
+    values = [label]
+    total_by_tag = SqlRunner.run(sql,values)
+    return total_by_tag.map{|tr| tr}.first['sum'].to_f.round(2)
+  end
 
   def Transaction.find_month_num(month_num)
     sql = "SELECT u.name as user_name, m.name as merchant_name,
@@ -103,10 +114,10 @@ class Transaction
     EXTRACT(MONTH FROM tr.time) as month_num,
     m.logo as m_logo,
     ta.logo as t_logo
-     FROM transactions tr
-      INNER JOIN merchants m ON m.id=tr.merchant_id
-      INNER JOIN tags ta ON ta.id=tr.tag_id
-      INNER JOIN users u ON u.id=tr.user_id
+    FROM transactions tr
+    INNER JOIN merchants m ON m.id=tr.merchant_id
+    INNER JOIN tags ta ON ta.id=tr.tag_id
+    INNER JOIN users u ON u.id=tr.user_id
     WHERE EXTRACT(MONTH FROM tr.time)= $1"
     values = [month_num]
     trans = SqlRunner.run( sql, values )
@@ -120,9 +131,24 @@ class Transaction
     return result.values.first.first.to_f.round(2)
   end
 
-  def Transaction.budget_message()
-    balance = (Transaction.user_budget() - Transaction.total()).round(2)
-    if balance > 0
+  def Transaction.budget_message(month_num) #TOTAL BY MONTH
+    balance = (Transaction.user_budget() - Transaction.total_by_month(month_num)).round(2)
+    if balance < 100 && balance > 0
+      return "WARNING! You are nearing your monthly budget. You have £#{balance.abs} left to spend!"
+    elsif balance > 0
+      return "COOL! You still have £#{balance} to spend!"
+    elsif balance == 0
+      return "You've just used up all your budget!"
+    else
+      return "WARNING! You are £#{balance.abs} over your budget"
+    end
+  end
+
+  def Transaction.budget_message_tag(label) #TOTAL BY TAG
+    balance = (Transaction.user_budget() - Transaction.total_by_tag(label)).round(2)
+    if balance < 100 && balance > 0
+      return "WARNING! You are nearing your monthly budget. You have £#{balance.abs} left to spend!"
+    elsif balance > 0
       return "COOL! You still have £#{balance} to spend!"
     elsif balance == 0
       return "You've just used up all your budget!"
@@ -132,17 +158,17 @@ class Transaction
   end
 
   #Analytics
-def Transaction.transactions_ordered_by_time()
-  sql = "SELECT u.name as user_name, m.name as merchant_name,
-  tr.amount,
-  ta.label,
-  tr.time as time,
-  to_char(tr.time,'Month') as month_name,
-  EXTRACT(MONTH FROM tr.time) as month_num,
-  EXTRACT(YEAR FROM tr.time) as year_num,
-  m.logo as m_logo,
-  ta.logo as t_logo
-  FROM transactions tr
+  def Transaction.transactions_ordered_by_time()
+    sql = "SELECT u.name as user_name, m.name as merchant_name,
+    tr.amount,
+    ta.label,
+    tr.time as time,
+    to_char(tr.time,'Month') as month_name,
+    EXTRACT(MONTH FROM tr.time) as month_num,
+    EXTRACT(YEAR FROM tr.time) as year_num,
+    m.logo as m_logo,
+    ta.logo as t_logo
+    FROM transactions tr
     INNER JOIN merchants m ON m.id=tr.merchant_id
     INNER JOIN tags ta ON ta.id=tr.tag_id
     INNER JOIN users u ON u.id=tr.user_id
@@ -151,72 +177,105 @@ def Transaction.transactions_ordered_by_time()
     return transactions_ordered_by_time_list.map{|tr| tr}
   end
 
-def Transaction.distinct_months #names
-  distinct_months = []
-  array_of_all_transactions = Transaction.transactions_ordered_by_time()
-  for hash in array_of_all_transactions
-    if distinct_months.include?(hash['month_name'].strip) == false
-      distinct_months.push(hash['month_name'].strip)
+  def Transaction.distinct_months #names
+    distinct_months = []
+    array_of_all_transactions = Transaction.transactions_ordered_by_time()
+    for hash in array_of_all_transactions
+      if distinct_months.include?(hash['month_name'].strip) == false
+        distinct_months.push(hash['month_name'].strip)
+      end
     end
+    return distinct_months
   end
-  return distinct_months
-end
 
-def Transaction.distinct_months_num #numbers
-  distinct_months_num = []
-  array_of_all_transactions = Transaction.transactions_ordered_by_time()
-  for hash in array_of_all_transactions
-    if distinct_months_num.include?(hash['month_num'].strip) == false
-      distinct_months_num.push(hash['month_num'].strip)
+  #
+  # def Transaction.distinct_months_num #numbers
+  #   distinct_months_num = []
+  #   array_of_all_transactions = Transaction.transactions_ordered_by_time()
+  #   for hash in array_of_all_transactions
+  #     if distinct_months_num.include?(hash['month_num'].strip) == false
+  #       distinct_months_num.push(hash['month_num'].strip)
+  #     end
+  #   end
+  #   return distinct_months_num
+  # end
+  #
+  # def Transaction.distinct_years
+  #   distinct_years = []
+  #   array_of_all_transactions = Transaction.transactions_ordered_by_time()
+  #   for hash in array_of_all_transactions
+  #     if distinct_years.include?(hash['year_num'].strip) == false
+  #       distinct_years.push(hash['year_num'].strip)
+  #     end
+  #   end
+  #   return distinct_years
+  # end
+
+  def Transaction.distinct_yearmonths
+    distinct_yearmonths = []
+    array_of_all_transactions = Transaction.transactions_ordered_by_time()
+    for hash in array_of_all_transactions
+      if distinct_yearmonths.include?(hash['year_num'].strip+"/"+hash['month_num'].strip) == false
+        distinct_yearmonths.push(hash['year_num'].strip+"/"+hash['month_num'].strip)
+      end
     end
+    return distinct_yearmonths
   end
-  return distinct_months_num
-end
 
-def Transaction.distinct_years
-  distinct_years = []
-  array_of_all_transactions = Transaction.transactions_ordered_by_time()
-  for hash in array_of_all_transactions
-    if distinct_years.include?(hash['year_num'].strip) == false
-      distinct_years.push(hash['year_num'].strip)
-    end
-  end
-  return distinct_years
-end
-
-def Transaction.distinct_yearmonths
-  distinct_yearmonths = []
-  array_of_all_transactions = Transaction.transactions_ordered_by_time()
-  for hash in array_of_all_transactions
-    if distinct_yearmonths.include?(hash['year_num'].strip+"/"+hash['month_num'].strip) == false
-      distinct_yearmonths.push(hash['year_num'].strip+"/"+hash['month_num'].strip)
-    end
-  end
-  return distinct_yearmonths
-end
-
-
-def Transaction.find_month_num(year_num, month_num)
-  sql = "SELECT u.name as user_name, m.name as merchant_name,
-  tr.amount,
-  ta.label,
-  tr.time as time,
-  to_char(tr.time,'Month') as month_name,
-  EXTRACT(MONTH FROM tr.time) as month_num,
-  EXTRACT(YEAR FROM tr.time) as year_num,
-  m.logo as m_logo,
-  ta.logo as t_logo
-   FROM transactions tr
+#All transactions for a given year & month combo
+  def Transaction.find_month_num(year_num, month_num)
+    sql = "SELECT u.name as user_name, m.name as merchant_name,
+    tr.amount,
+    ta.label,
+    tr.time as time,
+    to_char(tr.time,'Month') as month_name,
+    EXTRACT(MONTH FROM tr.time) as month_num,
+    EXTRACT(YEAR FROM tr.time) as year_num,
+    m.logo as m_logo,
+    ta.logo as t_logo
+    FROM transactions tr
     INNER JOIN merchants m ON m.id=tr.merchant_id
     INNER JOIN tags ta ON ta.id=tr.tag_id
     INNER JOIN users u ON u.id=tr.user_id
-  WHERE (EXTRACT(YEAR FROM tr.time)= $1 AND EXTRACT(MONTH FROM tr.time)= $2)"
-  values = [year_num, month_num]
-  trans = SqlRunner.run( sql, values )
-  return trans.map{|tr| tr}
-  # result = Transaction.new( trans.first )
-  # return result
-end
+    WHERE (EXTRACT(YEAR FROM tr.time)= $1 AND EXTRACT(MONTH FROM tr.time)= $2)"
+    values = [year_num, month_num]
+    trans = SqlRunner.run( sql, values )
+    return trans.map{|tr| tr}
+  end
+
+  #All transactions for a given label (tag)
+    def Transaction.find_tag(label)
+      sql = "SELECT u.name as user_name, m.name as merchant_name,
+      tr.amount,
+      ta.label,
+      tr.time as time,
+      m.logo as m_logo,
+      ta.logo as t_logo
+      FROM transactions tr
+      INNER JOIN merchants m ON m.id=tr.merchant_id
+      INNER JOIN tags ta ON ta.id=tr.tag_id
+      INNER JOIN users u ON u.id=tr.user_id
+      WHERE ta.label = $1"
+      values = [label]
+      trans = SqlRunner.run( sql, values )
+      return trans.map{|tr| tr}
+    end
+
+#All transactions created within a time range selected by the user.
+  def Transaction.time(date1, date2)
+    sql = "SELECT * FROM transactions"
+    transactions = SqlRunner.run( sql)
+    arr =[]
+    for transaction in transactions
+      transaction_time  = Time.parse(transaction['time']) #Time.parse(transaction.time)
+      date1_date  = Time.parse(date1)
+      date2_date  = Time.parse(date2)
+      if transaction_time >= date1_date && transaction_time <= date2_date
+        arr.push(transaction)
+      end
+    end
+    return arr.map{|transaction| Transaction.new(transaction)}
+  end
 
   ##----------------
 

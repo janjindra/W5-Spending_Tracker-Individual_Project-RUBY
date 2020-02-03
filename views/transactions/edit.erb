@@ -9,7 +9,7 @@
   Select a merchant:
     <select name="merchant_id">
       <% for merchant in @merchants %>
-      <option value="<%= merchant.id %>"><%= merchant.name %></option>
+      <option <%= "selected" if @transaction.merchant_id == merchant.id %> value="<%= merchant.id %>"><%= merchant.name %></option>
       <% end %>
     </select>
   </label>
@@ -18,7 +18,7 @@
       Select a label:
       <select name="tag_id">
         <% for tag in @tags %>
-        <option value="<%= tag.id %>"><%= tag.label %></option>
+        <option <%= "selected" if @transaction.tag_id == tag.id %> value="<%= tag.id %>"><%= tag.label %></option>
         <% end %>
       </select>
     </label>

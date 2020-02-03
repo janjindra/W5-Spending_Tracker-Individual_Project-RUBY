@@ -38,8 +38,6 @@
 
 <br><br>
 
-
-
 <table>
   <tr>
     <th>Merchant logo</th>
@@ -50,16 +48,15 @@
     <th>Category logo</th>
 
   </tr>
-  <% for item in @transactions_by_time %>
+  <% for transaction in @trans_per_range %>
   <tr>
-    <td><img src="<%= item['m_logo'] %>" alt="Merchant Logo"></td>
-    <td><%= item['merchant_name'] %></td>
-    <td><%= item['amount'] %></td>
-    <td><%= item['time'] %></td>
-    <td><%= item['label'] %></td>
-    <td><img src="<%= item['t_logo'] %>" alt="Tag Logo"></td>
+    <td><img src="<%= transaction.merchant.logo %>" alt="Merchant Logo"></td>
+    <td><%= transaction.merchant.name %></td>
+    <td><%= transaction.amount %></td>
+    <td><%= transaction.time %></td>
+    <td><%= transaction.tag.label %></td>
+    <td><img src="<%= transaction.tag.logo %>" alt="Tag Logo"></td>
   </tr>
   <% end %>
 </table>
 <br><br>
-<h2>All-time total: £<%=@total%> </h2>

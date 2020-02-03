@@ -38,8 +38,6 @@
 
 <br><br>
 
-
-
 <table>
   <tr>
     <th>Merchant logo</th>
@@ -50,7 +48,7 @@
     <th>Category logo</th>
 
   </tr>
-  <% for item in @transactions_by_time %>
+  <% for item in @transactions_by_tag %>
   <tr>
     <td><img src="<%= item['m_logo'] %>" alt="Merchant Logo"></td>
     <td><%= item['merchant_name'] %></td>
@@ -60,6 +58,14 @@
     <td><img src="<%= item['t_logo'] %>" alt="Tag Logo"></td>
   </tr>
   <% end %>
+
 </table>
+
 <br><br>
 <h2>All-time total: £<%=@total%> </h2>
+<h2>Category total: £<%=@total_by_tag%> </h2>
+<h2>Monthly Budget: £<%=@budget%> </h2>
+<h2><%=@message%></h2>
+<br><br>
+<br><br>
+<br><br>
