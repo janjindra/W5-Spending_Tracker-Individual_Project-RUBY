@@ -1,25 +1,24 @@
-<h2>Here you can add or delete a tag.</h2>
+<h2>Please update the details of this category.</h2>
+<br><br>
 
-<p>Please use the form below to enter a new tag to your Spend Tracker:</p>
-
-<form action="/tags/<%=@tag.id %>" method="post">
+<form action="/tags/<%=@tag.id %>" method="post" align="center">
   <label for="name">Label:
-  <input type="text" name="label" value="<%=@tag.label%>">
+  <input id="amount_newtr" type="text" name="label" value="<%=@tag.label.capitalize%>">
   </label>
-
+<br><br>
   <label>
   Select status:
-    <select name="active">
+    <select name="active" id="mainselection" class="custom-select">>
       <option <%= "selected" if @tag.active == "t" %> value="true">active</option>
       <option <%= "selected" if @tag.active == "f" %> value="false">deactivated</option>
     </select>
   </label>
-
+<br><br>
   <label for="logo">Logo URL:
-  <input type="text" name="logo" value="<%=@tag.logo%>">
+  <input id="amount_newtr" type="text" name="logo" value="<%=@tag.logo%>">
   </label>
 
+<br><br><br>
 
-
-  <input class="new_tr_added" type='submit' value="Confirm edits">
+  <input id="new_button" class="new_tr_added" type='submit' value="Update category details">
 </form>

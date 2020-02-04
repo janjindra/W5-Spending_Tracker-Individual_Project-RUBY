@@ -46,7 +46,8 @@ end
 post '/transactions/:id' do
 @transaction = Transaction.new(params)  #??????
 @transaction.update()
-erb(:"transactions/update")
+redirect to("/transactions")
+# erb(:"transactions/update")
 end
 
 #DELETE:

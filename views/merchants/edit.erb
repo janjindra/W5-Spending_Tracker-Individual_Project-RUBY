@@ -1,25 +1,24 @@
-<h2>Here you can add or delete a merchant.</h2>
+<h2>Please update details of the merchant below.</h2>
+<br><br><br>
 
-<p>Please use the form below to enter a new merchant to your Spend Tracker:</p>
-
-<form action="/merchants/<%=@merchant.id %>" method="post">
+<form action="/merchants/<%=@merchant.id %>" method="post" align="center">
   <label for="name">Merchant Name:
-  <input type="text" name="name" value="<%=@merchant.name%>">
+  <input id="amount_newtr" type="text" name="name" value="<%=@merchant.name%>">
   </label>
-
+<br><br>
   <label>
   Select status:
-    <select name="active">
-      <option <%= "selected" if @merchant.active == "t" %> value="true">active</option>
-      <option <%= "selected" if @merchant.active == "f" %> value="false">deactivated</option>
+    <select name="active" id="mainselection" class="custom-select">
+      <option <%= "selected" if @merchant.active == "t" %> value="t">active</option>
+      <option <%= "selected" if @merchant.active == "f" %> value="f">deactivated</option>
     </select>
   </label>
-
+<br><br>
   <label for="logo">Logo URL:
-  <input type="text" name="logo" value="<%=@merchant.logo%>">
+  <input id="amount_newtr" type="text" name="logo" value="<%=@merchant.logo%>">
   </label>
+<br><br><br>
 
 
-
-  <input class="new_tr_added" type='submit' value="Confirm edits">
+  <input id="new_button" type='submit' value="Update merchant details" style="height:30px; width:400px>
 </form>

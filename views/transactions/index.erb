@@ -45,7 +45,7 @@
   <tr>
     <td><img src="<%=transaction.merchant.logo%>" width="30" height="30" alt="Merchant Logo"></td>
     <td><%=transaction.id() %></td>
-    <td><%=transaction.tag.label %></td>
+    <td><%=transaction.tag.label.capitalize %></td>
     <td><%=transaction.merchant.name %></td>
     <td>£<%=transaction.amount %></td>
     <td><%=transaction.time %></td>

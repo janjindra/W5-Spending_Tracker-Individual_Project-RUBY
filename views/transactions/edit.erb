@@ -1,31 +1,29 @@
-<h2>This is a page to edit 1 specific transaction.</h2>
-
-<h2>Form will follow here below.....</h2>
-
+<h2>Please update details for this transaction.</h2>
+<br><br><br><br>
 
 
-<form action="/transactions/<%=@transaction.id %>" method="post">
+<form action="/transactions/<%=@transaction.id %>" method="post" align="center">
   <label>
   Select a merchant:
-    <select name="merchant_id">
+    <select name="merchant_id" id="mainselection" class="custom-select">
       <% for merchant in @merchants %>
       <option <%= "selected" if @transaction.merchant_id == merchant.id %> value="<%= merchant.id %>"><%= merchant.name %></option>
       <% end %>
     </select>
   </label>
-
+<br><br>
   <label>
       Select a label:
-      <select name="tag_id">
+      <select name="tag_id" id="mainselection" class="custom-select">
         <% for tag in @tags %>
-        <option <%= "selected" if @transaction.tag_id == tag.id %> value="<%= tag.id %>"><%= tag.label %></option>
+        <option <%= "selected" if @transaction.tag_id == tag.id %> value="<%= tag.id %>"><%= tag.label.capitalize %></option>
         <% end %>
       </select>
     </label>
-
-  <label for="amount">Amount:
-  <input type="number" name="amount" value="<%= @transaction.amount %>">
+<br><br>
+  <label> Amount:
+  <input  id="amount_newtr" type="number" name="amount" value="<%= @transaction.amount %>">
   </label>
-
-  <input class="new_tr_added" type='submit' value="Submit this edit">
+<br><br><br>
+  <input id="new_button" type='submit' value="Update this transaction">
 </form>

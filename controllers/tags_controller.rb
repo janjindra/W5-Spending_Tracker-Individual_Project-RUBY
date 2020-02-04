@@ -37,7 +37,7 @@ end
 post '/tags/:id' do
 @tag = Tag.new(params)  #??????
 @tag.update()
-erb(:"tags/update")
+redirect to("/tags")
 end
 
 #DELETE

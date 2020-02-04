@@ -1,6 +1,6 @@
 <h2>Here you can record a new transaction:</h2>
 
-<p>Please use the form below to enter a new transaction to your Spend Tracker:</p>
+<p>Please use the form below to enter a new transaction to your Spending Tracker:</p>
 <br><br>
 <form action="/transactions" method="post"  align="center">
   <label>
@@ -21,7 +21,7 @@
     <select id="mainselection" class="custom-select" name="tag_id">
       <% for tag in @tags %>
       <% if tag.active == 't' %>
-      <option value="<%= tag.id %>"><%= tag.label %></option>
+      <option value="<%= tag.id %>"><%= tag.label.capitalize %></option>
       <% end %>
       <% end %>
     </select>
@@ -32,6 +32,6 @@
   <input id="amount_newtr" type="number" name="amount" value="">
   </label>
 <br><br><br><br>
-  <input id="new_button" type='submit' value="[+ SUBMIT NEW TRANSACTION]" style="height:30px; width:400px">
+  <input id="new_button" type='submit' value="[+] SUBMIT NEW TRANSACTION" style="height:30px; width:400px">
 </form>
 <br><br><br><br><br>

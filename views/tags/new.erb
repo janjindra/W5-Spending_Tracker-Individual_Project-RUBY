@@ -1,24 +1,23 @@
-<h2>Here you can add or delete a tag.</h2>
+<h2>Please use the form below to add a new category.</h2>
+<br><br>
 
-<p>Please use the form below to enter a new tag to your Spend Tracker:</p>
-
-<form action="/tags" method="post">
+<form action="/tags" method="post" align="center">
   <label for="label">Label:
-  <input type="text" name="label" value="">
+  <input id="amount_newtr" type="text" name="label" value="">
   </label>
-
+<br><br>
   <label>
   Select status:
-    <select name="active">
+    <select name="active" id="mainselection" class="custom-select">
       <option value="true">active</option>
       <option value="false">deactivated</option>
     </select>
   </label>
-
+<br><br>
   <label for="logo">Logo URL:
-  <input type="text" name="logo" value="">
+  <input id="amount_newtr" type="text" name="logo" value="">
   </label>
+<br><br><br>
 
-
-  <input class="new_tag_added" type='submit' value="Submit new">
+  <input id="new_button" type='submit' value="[+] ADD NEW CATEGORY " style="height:30px; width:400px">
 </form>

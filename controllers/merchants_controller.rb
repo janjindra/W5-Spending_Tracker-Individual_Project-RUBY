@@ -40,7 +40,8 @@ end
 post '/merchants/:id' do
 @merchant = Merchant.new(params)  #??????
 @merchant.update()
-erb(:"merchants/update")
+redirect to("/merchants")
+# erb(:"merchants/update")
 end
 
 #DELETE

@@ -1,20 +1,24 @@
-<h2>This is all the Users page.</h2>
+<h2>User Profile</h2>
 
+
+
+<img class="center" src="/images/person.png" width="100" height="100" alt="">
 
 <%  for user in @user %>
-<p> User Unique ID (UUID): <%=user.id %><%= "TR9366" %> </p>
-<p> User Name: <%=user.name %> </p>
+<p align="center"> User Unique ID (UUID): <%=user.id %><%= "TR9366" %> </p>
+<p align="center"> User Name: <%=user.name %> </p>
 
-<form method="get" action="/users/<%=user.id %>/edit">
-  <input type="submit"  value="Change your name">
+
+<form method="get" action="/users/<%=user.id %>/edit" align="center">
+  <input id="new_button" type="submit" value="Change your name">
 </form>
+<br>
+<p align="center"> Your Monthly Budget: £<%=user.budget %> </p>
 
-<p> Your Monthly Budget: £<%=user.budget %> </p>
-
-<form method="get" action="/users/<%=user.id %>/edit">
-  <input type="submit"  value="Change your budget">
+<form  method="get" action="/users/<%=user.id %>/edit" align="center">
+  <input id="new_button" type="submit" value="Change your budget">
 </form>
-
+<br><br>
 
 <hr />
 <% end %>

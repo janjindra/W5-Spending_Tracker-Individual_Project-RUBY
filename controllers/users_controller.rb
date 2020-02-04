@@ -34,7 +34,7 @@ end
 post '/users/:id' do
 @user = User.new(params)
 @user.update()
-erb(:"users/update")
+redirect to("/users")
 end
 
 #Deletion of users DISABLED for the scope of this project.

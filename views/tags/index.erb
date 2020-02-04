@@ -15,10 +15,11 @@
   <tr>
     <td><img src="<%= tag.logo %>" width="30" height="30" alt="Tag Logo"></td>
     <td><%=tag.id() %></td>
-    <td><%=tag.label() %></td>
+    <td><%=tag.label.capitalize %></td>
     <td><% if tag.active == "t" %>
     <%= "active" %>
-  <% else "deactivated" %>
+  <% else %>
+  <%="deactivated" %>
 <%end%>
 </td>
     <td>
