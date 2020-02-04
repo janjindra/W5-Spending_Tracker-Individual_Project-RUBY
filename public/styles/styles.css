@@ -1,40 +1,233 @@
 body {
 
-  background: lightyellow;
+  background: #f3f3f3;
 }
 
 h1 {
 
-  background-color: Grey;
+  background-color: #008B8B;
+  padding: 4px;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
 
-h3 {
-  text-align: center;
-  color: Blue;
+h2 {
+  text-align: left;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+p {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+label {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+.inline {
+  display:inline-block;
+  margin-right:5px;
+}
+
+#new_button {
+  font-size: 16px;
+  color: Black;
+  background: LightYellow;
+  border: 1px solid #ddd;
+  margin: 0px;
 }
 
 /* Tables */
 
-td, th {
-  text-align: left;
-}
-
-td {
-  padding: 10px 20px 0px 0px;
-  border: 1px solid black;
-}
-
-th {
-  padding: 0px 20px 10px 0px;
-  border: 1px solid black;
-}
-
 table {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  align: center;
+  width: 100%;
 }
 
-.inline {
-   display:inline-block;
-   margin-right:5px;
+table td, th {
+  border: 1px solid #ddd;
+  padding: 3px;
+}
+
+table tr:nth-child(even){background-color: #f2f2f2;}
+
+table tr:hover {background-color: #ddd;}
+
+table th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: left;
+  background-color: #D3D3D3;
+  color: black;
+}
+
+#tfooter {
+align-content: center;
+align-items: center;
+align-self: center;
+
+}
+
+tfoot {
+  /* display: flex; */
+  /* justify-content: center; */
+
+}
+
+/* FILTER BAR */
+div.background {
+  background-color: #f3f3f3;
+}
+
+div.container {
+  display: flex;
+  justify-content: center;
+}
+
+#filter-barul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #f3f3f3;
+  border: 1px 1px solid white;
+  position: sticky;
+  top: 0;
+  align: center;
+  border: none;
+}
+
+#filter-barli {
+  float: center;
+  border-right: 2px solid #LightGrey;
+/* text-decoration-line: underline; */
+}
+
+#filter-barli:last-child {
+  /* border-right: none; */
+}
+
+#filter-barli #filter-bara {
+  /* display: block; */
+  color: Grey;
+  text-align: center;
+  padding: 5px 35px;
+  text-decoration: none;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+/* Change the link color to #111 (black) on hover */
+#filter-barli #filter-bara:hover {
+  background-color: Gainsboro;
+}
+
+
+/* NAVIGATION BAR */
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #666;
+  border: 1px solid #e7e7e7;
+  position: sticky;
+  top: 0;
+}
+
+li {
+  float: left;
+  border-right: 1px solid #bbb;
+}
+
+li:last-child {
+  border-right: none;
+}
+
+li a {
+  display: block;
+  color: #f3f3f3;
+  text-align: center;
+  padding: 16px 16px;
+  text-decoration: none;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #2F4F4F;
+}
+
+.active {
+  background-color: #008B8B;
+}
+
+
+/* FOOTER */
+footer {
+
+  background-color: #008B8B;
+  text-align: center;
+  padding: 2px;
+  color: white;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+
+/* CUSTOM DROPDOWN LAYOUT - START */
+
+select.custom-select {
+  border: 1px solid #ddd;
+  color: Black;
+  background: transparent;
+  font-size: 16px;
+
+  width: 60px;
+}
+
+
+#mainselection2 {
+  overflow: hidden;
+  width: 130px;
+  background: #f3f3f3;
+}
+
+#mainselection {
+  overflow: hidden;
+  width: 200px;
+  background: LightGrey;
+}
+
+/* CUSTOM DROPDOWN LAYOUT - END */
+
+#amount_newtr {
+  position: center;
+  width: 150px;
+  padding: 0px;
+  font-size: 12pt;
+  background: LightGrey;
+}
+
+
+#update-btn {
+  font-size: 12px;
+  color: Black;
+  background: LightYellow;
+  border: 1px solid #ddd;
+  margin: 0px;
+}
+
+#delete-btn {
+  font-size: 12px;
+  color: Black;
+  background: LightPink;
+  border: 1px solid #ddd;
+  margin: 0px;
+}
+
+#filter-btn {
+  font-size: 12px;
+  color: Black;
+  background: #D3D3D3;
+  border: 1px solid #ddd;
+  margin: 0px;
 }

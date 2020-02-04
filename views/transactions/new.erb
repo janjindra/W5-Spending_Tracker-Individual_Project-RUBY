@@ -1,22 +1,24 @@
 <h2>Here you can record a new transaction:</h2>
 
 <p>Please use the form below to enter a new transaction to your Spend Tracker:</p>
-
-<form action="/transactions" method="post">
+<br><br>
+<form action="/transactions" method="post"  align="center">
   <label>
   Select a merchant:
-    <select name="merchant_id">
+    <select id="mainselection" class="custom-select" name="merchant_id">
       <% for merchant in @merchants %>
       <% if merchant.active == 't' %>
-      <option value="<%= merchant.id %>"><%= merchant.name %></option>
+      <option class="dropdown" value="<%= merchant.id %>"><%= merchant.name %></option>
       <% end %>
       <% end %>
     </select>
   </label>
 
+
+<br><br>
   <label>
     Select a label:
-    <select name="tag_id">
+    <select id="mainselection" class="custom-select" name="tag_id">
       <% for tag in @tags %>
       <% if tag.active == 't' %>
       <option value="<%= tag.id %>"><%= tag.label %></option>
@@ -24,10 +26,12 @@
       <% end %>
     </select>
   </label>
+  <br><br>
 
   <label for="amount">Amount:
-  <input type="number" name="amount" value="">
+  <input id="amount_newtr" type="number" name="amount" value="">
   </label>
-
-  <input class="new_tr_added" type='submit' value="Submit new">
+<br><br><br><br>
+  <input id="new_button" type='submit' value="[+ SUBMIT NEW TRANSACTION]" style="height:30px; width:400px">
 </form>
+<br><br><br><br><br>

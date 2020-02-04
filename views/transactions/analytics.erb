@@ -1,40 +1,47 @@
 <h2>Your Analytics</h2>
 
-<table>
-  <tr><p>Filter by:</p>
-    <td>
-      <form method="get" action="/transactions/analytics/allbytime">
-    <input type="submit"  value="ALL TRANSACTIONS BY TIME">
-    </form></td></tr>
-  </table>
-  <br>
-  <table><tr>
-  <%  for tag in @tags %>
-      <td>
-        <form method="get" action="/transactions/analytics/tag/<%= tag.label %>/table">
-        <input type="submit"  value="<%= tag.label  %>">
-      </form>
+<div class="background">
+
+  <div class="container">
+    <ul id="filter-barul">
+      <%  for tag in @tags %>
+    <li id="filter-barli"><a id="filter-bara" href="/transactions/analytics/tag/<%= tag.label %>/table"><%= tag.label.capitalize  %>
+    </a></li>
+      <% end %>
+    </ul>
+  </div>
+<br>
+  <div class="container">
+    <ul id="filter-barul">
+    <%  for yearmonth in @yearmonths %>
+    <li id="filter-barli"><a id="filter-bara"href="/transactions/analytics/month/<%=yearmonth%>/table"><%= (yearmonth.split('/').first).concat(" ",Date::MONTHNAMES[(yearmonth.split('/').last).to_i])  %>
+    </a></li>
     <% end %>
-  </td></tr></table><br><table>
-<tr> <%  for yearmonth in @yearmonths %>
-    <td>
-      <form method="get" action="/transactions/analytics/month/<%=yearmonth%>/table">
-      <input type="submit"  value="<%= (yearmonth.split('/').first).concat(" ",Date::MONTHNAMES[(yearmonth.split('/').last).to_i])  %>">
-      </form>
-  <% end %>
-    </td></tr></table>
-<br>
-<br>
+    </ul>
+  </div>
+  <br>
+  <div class="container">
+    <ul id="filter-barul">
+      <li id="filter-barli"><a id="filter-bara" href="/transactions/analytics/allbytime">ALL TRANSACTIONS BY TIME
+      </a></li>
+      </ul>
+    </div>
+</div>
+
+
+  <br><br>
+    <div class="container">
 <form method="post" action="/transactions/analytics/range">
-    <label for="date1">From</label>
-    <input name="date1" type="date"  value="date1">
+    <label for="date1">From&nbsp</label>
+    <input id="mainselection2" name="date1" type="date"  value="date1">
 
-    <label for="date2">To</label>
-    <input name="date2"type="date"  value="date2">
+    <label for="date2">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp To &nbsp&nbsp</label>
+    <input id="mainselection2" name="date2"type="date"  value="date2">
 
-    <input type="submit"  value="Filter">
+    <input id="mainselection" type="submit"  value="Filter">
 </form>
 <br>
+</div>
 
 <br><br>
 
@@ -45,9 +52,9 @@
     <th>Merchant logo</th>
     <th>Merchant Name</th>
     <th>Amount</th>
-    <th>Time</th>
     <th>Category</th>
     <th>Category logo</th>
+    <th>Time</th>
 
   </tr>
   <% for item in @transactions_by_time %>
@@ -55,11 +62,19 @@
     <td><img src="<%= item['m_logo'] %>" width="30" height="30" alt="Merchant Logo"></td>
     <td><%= item['merchant_name'] %></td>
     <td><%= item['amount'] %></td>
-    <td><%= item['time'] %></td>
     <td><%= item['label'] %></td>
     <td><img src="<%= item['t_logo'] %>" width="30" height="30" alt="Tag Logo"></td>
+    <td><%= item['time'] %></td>
   </tr>
   <% end %>
 </table>
+
+<table id=tfooter>
+  <tfoot>
+<th>
+        All-time total: £<%=@total%>
+</th>
+    </tfoot>
+  </table>
+
 <br><br>
-<h2>All-time total: £<%=@total%> </h2>

@@ -1,6 +1,37 @@
-<h2>This is all the Transactions page.</h2>
+<br><h2>See all your latest recorded transactions below.</h2>
 
-<table>
+<head>
+<style>
+
+
+#tfooter {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#tfoother td, #tfooter th {
+  border: 1px solid #ddd;
+  padding: 3px;
+}
+
+#tfooter tr:nth-child(even){background-color: #f2f2f2;}
+
+#tfooter tr:hover {background-color: #ddd;}
+
+#tfooter th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #D3D3D3;
+  color: black;
+}
+
+</style>
+</head>
+
+<body>
+<table id="transactions">
   <tr>
     <th></th>
     <th>ID</th>
@@ -16,20 +47,31 @@
     <td><%=transaction.id() %></td>
     <td><%=transaction.tag.label %></td>
     <td><%=transaction.merchant.name %></td>
-    <td><%=transaction.amount %></td>
+    <td>£<%=transaction.amount %></td>
     <td><%=transaction.time %></td>
     <td>
       <form method="get" class="inline" action="/transactions/<%= transaction.id %>/edit">
-        <input type="submit"  value="Update this trans">
+        <input id="update-btn" type="submit"  value="Update this transaction">
       </form>
 
       <form method="post" class="inline" action="/transactions/<%= transaction.id %>/delete">
-        <input type="submit"  value="Delete this trans">
+        <input id="delete-btn" type="submit"  value="Delete this transsaction">
       </form>
     </td>
   </tr>
   <% end %>
 </table>
+
+<table id="tfooter">
+  <tfoot>
+<th id="tfooter">
+        All-time total: £<%=@total%>
+</th>
+    </tfoot>
+  </table>
+
 <br><br>
-<h2>All-time total: <%=@total%> </h2>
-<br><br>
+</body>
+
+<!-- #DCDCDC -->
+<!-- aquamarine: #008B8B -->

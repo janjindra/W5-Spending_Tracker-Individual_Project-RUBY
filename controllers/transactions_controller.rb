@@ -12,6 +12,7 @@ also_reload( '../models/*' )
 get '/transactions' do
   @transactions = Transaction.all
   @total = Transaction.total
+  #@transactions_by_time = Transaction.transactions_ordered_by_time
   # @budget = Transaction.user_budget
   # @message = Transaction.budget_message
   erb (:"transactions/index")

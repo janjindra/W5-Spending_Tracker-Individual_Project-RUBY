@@ -1,8 +1,5 @@
-<h2>See your list of categories below.</h2>
+<h2>See the list of your defined categories below.</h2>
 
-<form method="get" class="bttn-add-new" action="/tags/new">
-  <input type="submit"  value="+ ADD NEW CATEGORY">
-</form>
 
 <br>
 <table>
@@ -26,14 +23,19 @@
 </td>
     <td>
       <form method="get" class="inline" action="/tags/<%= tag.id %>/edit">
-        <input type="submit"  value="Update this tag">
+        <input id="update-btn" type="submit"  value="Update this category">
       </form>
 
       <form method="post" class="inline" action="/tags/<%= tag.id %>/delete">
-        <input type="submit"  value="Delete this tag">
+        <input id="delete-btn" type="submit"  value="Delete this category">
       </form>
     </td>
   </tr>
   <% end %>
 </table>
 <br><br>
+
+<form method="get" action="/tags/new" align="center">
+  <input id="new_button" type="submit"  value="[+] ADD NEW CATEGORY" style="height:30px; width:400px">
+</form>
+<br><br><br><br>

@@ -1,13 +1,10 @@
-<h2>This is all the Merchants page.</h2>
+<br><h2>See a list of all your recorded merchants below.</h2>
 
-<form method="get" class="bttn-add-new" action="/merchants/new">
-  <input type="submit"  value="+ ADD NEW MERCHANT">
-</form>
 
 <br>
 
 
-<table>
+<table id=merchants>
   <tr>
     <th></th>
     <th>ID</th>
@@ -26,15 +23,21 @@
 <%end%></td>
     <td>
       <form method="get" class="inline" action="/merchants/<%= merchant.id %>/edit">
-        <input type="submit"  value="Update this merchant">
+        <input id="update-btn" type="submit"  value="Update this merchant">
       </form>
 
       <form method="post" class="inline" action="/merchants/<%= merchant.id %>/delete">
-        <input type="submit"  value="Delete this merchant">
+        <input id="delete-btn" type="submit"  value="Delete this merchant">
       </form>
 
     </td>
   </tr>
   <% end %>
 </table>
+<br><br>
+<form method="get" action="/merchants/new" align="center">
+  <input id="new_button" type="submit"  value="[+] ADD NEW MERCHANT" style="height:30px; width:400px">
+</form>
+
+<br><br>
 <br><br>
