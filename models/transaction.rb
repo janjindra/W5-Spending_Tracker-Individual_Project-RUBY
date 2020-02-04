@@ -277,32 +277,4 @@ class Transaction
     return arr.map{|transaction| Transaction.new(transaction)}
   end
 
-  ##----------------
-
-  # def Transaction.full_details
-  #   sql = "SELECT m.name, m.id, m.active, tr.id as unique_id, tr.merchant_id, tr.tag_id, tr.amount, ta.id, ta.label, ta.active, m.logo FROM transactions tr
-  #   INNER JOIN merchants m ON m.id=tr.merchant_id
-  #   INNER JOIN tags ta ON ta.id=tr.tag_id"
-  #   full_details = SqlRunner.run(sql)
-  #   return full_details.map{|detail| detail}
-  # end
-  #
-  # def Transaction.find_transation_by_id(id)
-  #   sql = "SELECT * FROM transactions
-  #   WHERE id = $1"
-  #   values = [id]
-  #   full_details_for_an_id = SqlRunner.run(sql, values)
-  #   return Transaction.new(full_details_for_an_id.first)
-  # end
-  #
-  # def Transaction.full_details_by_id(id)
-  #   sql = "SELECT m.name, m.id, m.active, tr.id as unique_id, tr.merchant_id, tr.tag_id, tr.amount, ta.id, ta.label, ta.active, m.logo FROM transactions tr
-  #   INNER JOIN merchants m ON m.id=tr.merchant_id
-  #   INNER JOIN tags ta ON ta.id=tr.tag_id
-  #   WHERE tr.id = $1"
-  #   values = [id]
-  #   full_details = SqlRunner.run(sql, values)
-  #   return full_details.map{|detail| detail}
-  # end
-
 end

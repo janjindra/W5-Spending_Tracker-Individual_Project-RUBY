@@ -39,63 +39,63 @@ require("pry-byebug")
     @groceries = Tag.new({
       'label' => 'groceries',
       'active' => true,
-      'logo' => 'https://www.shareicon.net/data/256x256/2016/08/19/817434_food_512x512.png'
+      'logo' => '/images/t-groceries.png'
       })
       @groceries.save()
 
       @shopping = Tag.new({
         'label' => 'shopping',
         'active' => true,
-        'logo' => 'https://www.shareicon.net/data/256x256/2016/08/19/817434_food_512x512.png'
+        'logo' => '/images/t-shopping.png'
         })
         @shopping.save()
 
         @restaurants = Tag.new({
           'label' => 'restaurants',
           'active' => true,
-          'logo' => 'https://www.shareicon.net/data/256x256/2016/08/19/817434_food_512x512.png'
+          'logo' => '/images/t-restaurants.png'
           })
           @restaurants.save()
 
           @transport = Tag.new({
             'label' => 'transport',
             'active' => true,
-            'logo' => 'https://www.shareicon.net/data/256x256/2016/08/19/817434_food_512x512.png'
+            'logo' => '/images/t-transport.png'
             })
             @transport.save()
 
             @entertainment = Tag.new({
               'label' => 'entertainment',
               'active' => true,
-              'logo' => 'https://www.shareicon.net/data/256x256/2016/08/19/817434_food_512x512.png'
+              'logo' => '/images/t-entertainment.png'
               })
               @entertainment.save()
 
               @health = Tag.new({
                 'label' => 'health',
                 'active' => true,
-                'logo' => 'https://www.shareicon.net/data/256x256/2016/08/19/817434_food_512x512.png'
+                'logo' => '/images/t-health.png'
                 })
                 @health.save()
 
                 @services = Tag.new({
                   'label' => 'services',
                   'active' => true,
-                  'logo' => 'https://www.shareicon.net/data/256x256/2016/08/19/817434_food_512x512.png'
+                  'logo' => '/images/t-services.png'
                   })
                   @services.save()
 
                   @utilities = Tag.new({
                     'label' => 'utilities',
                     'active' => true,
-                    'logo' => 'https://www.shareicon.net/data/256x256/2016/08/19/817434_food_512x512.png'
+                    'logo' => '/images/t-utilities.png'
                     })
                     @utilities.save()
 
                     @rent = Tag.new({
                       'label' => 'rent',
                       'active' => true,
-                      'logo' => 'https://www.shareicon.net/data/256x256/2016/08/19/817434_food_512x512.png'
+                      'logo' => '/images/t-rent.png'
                       })
                       @rent.save()
 

@@ -50,12 +50,12 @@
   </tr>
   <% for item in @transactions_by_time %>
   <tr>
-    <td><img src="<%= item['m_logo'] %>" alt="Merchant Logo"></td>
+    <td><img src="<%= item['m_logo'] %>" width="30" height="30" alt="Merchant Logo"></td>
     <td><%= item['merchant_name'] %></td>
     <td><%= item['amount'] %></td>
     <td><%= item['time'] %></td>
     <td><%= item['label'] %></td>
-    <td><img src="<%= item['t_logo'] %>" alt="Tag Logo"></td>
+    <td><img src="<%= item['t_logo'] %>" width="30" height="30" alt="Tag Logo"></td>
   </tr>
   <% end %>
 </table>

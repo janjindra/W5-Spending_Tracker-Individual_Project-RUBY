@@ -1,20 +1,39 @@
-<h2>This is all the Tags page.</h2>
+<h2>See your list of categories below.</h2>
 
-
-<%  for tag in @tags %>
-<p> ID: <%=tag.id() %> </p>
-<p> Label: <%=tag.label() %> </p>
-<p> Active: <%= tag.active %></p>
-<p> Logo: </p><img src="<%= tag.logo %>" alt="Tag Logo">
-
-<form method="get" action="/tags/<%= tag.id %>/edit">
-  <input type="submit"  value="Update this tag">
+<form method="get" class="bttn-add-new" action="/tags/new">
+  <input type="submit"  value="+ ADD NEW CATEGORY">
 </form>
 
-<form method="post" action="/tags/<%= tag.id %>/delete">
-  <input type="submit"  value="Delete this tag">
-</form>
+<br>
+<table>
+  <tr>
+    <th></th>
+    <th>ID</th>
+    <th>Category</th>
+    <th>Status</th>
+    <th>Actions</th>
 
+  </tr>
+  <%  for tag in @tags %>
+  <tr>
+    <td><img src="<%= tag.logo %>" width="30" height="30" alt="Tag Logo"></td>
+    <td><%=tag.id() %></td>
+    <td><%=tag.label() %></td>
+    <td><% if tag.active == "t" %>
+    <%= "active" %>
+  <% else "deactivated" %>
+<%end%>
+</td>
+    <td>
+      <form method="get" class="inline" action="/tags/<%= tag.id %>/edit">
+        <input type="submit"  value="Update this tag">
+      </form>
 
-<hr />
-<% end %>
+      <form method="post" class="inline" action="/tags/<%= tag.id %>/delete">
+        <input type="submit"  value="Delete this tag">
+      </form>
+    </td>
+  </tr>
+  <% end %>
+</table>
+<br><br>

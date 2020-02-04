@@ -1,24 +1,35 @@
 <h2>This is all the Transactions page.</h2>
 
-
+<table>
+  <tr>
+    <th></th>
+    <th>ID</th>
+    <th>Category</th>
+    <th>Merchant</th>
+    <th>Amount</th>
+    <th>Date</th>
+    <th>Actions</th>
+  </tr>
 <%  for transaction in @transactions %>
-<p> Transaction ID: <%=transaction.id %> </p>
-<p> Label: <%=transaction.tag.label %> </p>
-<p> Merchant: <%=transaction.merchant.name %> </p>
-<p>Amount: <%=transaction.amount %> </p>
+  <tr>
+    <td><img src="<%=transaction.merchant.logo%>" width="30" height="30" alt="Merchant Logo"></td>
+    <td><%=transaction.id() %></td>
+    <td><%=transaction.tag.label %></td>
+    <td><%=transaction.merchant.name %></td>
+    <td><%=transaction.amount %></td>
+    <td><%=transaction.time %></td>
+    <td>
+      <form method="get" class="inline" action="/transactions/<%= transaction.id %>/edit">
+        <input type="submit"  value="Update this trans">
+      </form>
 
-<p> Logo: </p><img src="<%=transaction.merchant.logo%>" alt="marchant logo">
-
-
-<form method="get" action="/transactions/<%= transaction.id %>/edit">
-  <input type="submit"  value="Update this trans">
-</form>
-
-<form method="post" action="/transactions/<%= transaction.id %>/delete">
-  <input type="submit"  value="Delete this trans">
-</form>
-
-<hr />
-<% end %>
-
+      <form method="post" class="inline" action="/transactions/<%= transaction.id %>/delete">
+        <input type="submit"  value="Delete this trans">
+      </form>
+    </td>
+  </tr>
+  <% end %>
+</table>
+<br><br>
 <h2>All-time total: <%=@total%> </h2>
+<br><br>
