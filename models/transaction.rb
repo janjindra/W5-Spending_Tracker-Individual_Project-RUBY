@@ -85,6 +85,7 @@ class Transaction
     return total.values.first.first.to_f.round(2)
   end
 
+#total by month not needed -- we need year and month combo!
   def Transaction.total_by_month(month_num)
     sql = "SELECT sum(amount), EXTRACT(MONTH FROM time) as month
     FROM transactions
@@ -94,6 +95,19 @@ class Transaction
     total_by_month = SqlRunner.run(sql,values)
     return total_by_month.map{|tr| tr}.first['sum'].to_f.round(2)
   end
+
+  def Transaction.total_by_yearmonth(year, month)
+    sql = "SELECT sum(amount), EXTRACT(MONTH FROM time) as month, EXTRACT(YEAR FROM time) as year
+    FROM transactions
+    WHERE EXTRACT(YEAR FROM time)= $1 AND EXTRACT(MONTH FROM time)= $2
+    GROUP BY year, month"
+    values = [year, month]
+    total_by_yearmonth = SqlRunner.run(sql,values)
+    return total_by_yearmonth.map{|tr| tr}.first['sum'].to_f.round(2)
+  end
+
+
+
 
   def Transaction.total_by_tag(label)
     sql = "SELECT sum(transactions.amount)
@@ -131,16 +145,16 @@ class Transaction
     return result.values.first.first.to_f.round(2)
   end
 
-  def Transaction.budget_message(month_num) #TOTAL BY MONTH
-    balance = (Transaction.user_budget() - Transaction.total_by_month(month_num)).round(2)
+  def Transaction.budget_message(year, month) #TOTAL BY YEAR-MONTH combo
+    balance = (Transaction.user_budget() - Transaction.total_by_yearmonth(year,month)).round(2)
     if balance < 100 && balance > 0
       return "WARNING! You are nearing your monthly budget. You have £#{balance.abs} left to spend!"
     elsif balance > 0
-      return "COOL! You still have £#{balance} to spend!"
+      return "COOL! You have £#{balance} left to spend!"
     elsif balance == 0
       return "You've just used up all your budget!"
     else
-      return "WARNING! You are £#{balance.abs} over your budget"
+      return "WARNING! You are £#{balance.abs} over your budget."
     end
   end
 

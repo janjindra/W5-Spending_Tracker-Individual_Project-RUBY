@@ -76,9 +76,9 @@ get '/transactions/analytics/month/:year/:month/table' do
   # @year_names=Transaction.distinct_years
   @yearmonths=Transaction.distinct_yearmonths
   @total = Transaction.total
-  @total_by_month = Transaction.total_by_month(params[:month])
+  @total_by_yearmonth = Transaction.total_by_yearmonth(params[:year],params[:month])
   @budget = Transaction.user_budget
-  @message = Transaction.budget_message(params[:month])
+  @message = Transaction.budget_message(params[:year],params[:month])
   @tags = Tag.all
   erb(:"transactions/analytics-m-table")
 end
