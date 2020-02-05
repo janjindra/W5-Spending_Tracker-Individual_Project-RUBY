@@ -1,24 +1,50 @@
 <h2>User Profile</h2>
 
 
-
 <img class="center" src="/images/person.png" width="100" height="100" alt="">
 
 <%  for user in @user %>
 <p align="center"> User Unique ID (UUID): <%=user.id %><%= "TR9366" %> </p>
-<p align="center"> User Name: <%=user.name %> </p>
-
-
-<form method="get" action="/users/<%=user.id %>/edit" align="center">
+<p align="center"> User Name: <%=user.name %> </p><form method="get" action="/users/<%=user.id %>/edit" align="center">
   <input id="new_button" type="submit" value="Change your name">
 </form>
 <br>
-<p align="center"> Your Monthly Budget: £<%=user.budget %> </p>
+<p align="center"> Your Total Monthly Budget: £<%=user.budget %></p>
 
-<form  method="get" action="/users/<%=user.id %>/edit" align="center">
+<br>
+
+<table id="budgetbreakdown">
+  <tr>
+    <th>Groceries</th>
+    <th>Shopping</th>
+    <th>Restaurants</th>
+    <th>Transaport</th>
+    <th>Entertainment</th>
+    <th>Health</th>
+    <th>Services</th>
+    <th>Utilities</th>
+    <th>Rent</th>
+  </tr>
+  <tr>
+
+    <td>£<%=user.budget_groceries %></td>
+    <td>£<%=user.budget_shopping %></td>
+    <td>£<%=user.budget_restaurants %></td>
+    <td>£<%=user.budget_transport %></td>
+    <td>£<%=user.budget_entertainment %></td>
+    <td>£<%=user.budget_health %></td>
+    <td>£<%=user.budget_services %></td>
+    <td>£<%=user.budget_utilities %></td>
+    <td>£<%=user.budget_rent %></td>
+
+  </tr>
+  <% end %>
+</table><br>
+
+
+ <form  method="get" action="/users/<%=user.id %>/edit" align="center">
   <input id="new_button" type="submit" value="Change your budget">
 </form>
 <br><br>
 
 <hr />
-<% end %>

@@ -101,9 +101,19 @@ require("pry-byebug")
 
                       @user1 = User.new({
                         'name' => 'Jan',
-                        'budget' => 1000
+                        'budget_groceries' => 10,
+                        'budget_shopping' => 20,
+                        'budget_restaurants'  => 30,
+                        'budget_transport' => 40,
+                        'budget_entertainment' => 5,
+                        'budget_health' => 15,
+                        'budget_services' => 25,
+                        'budget_utilities' => 35,
+                        'budget_rent' => 45
                         })
+                        
                         @user1.save()
+
 
                         @transaction1 = Transaction.new({
                           'merchant_id' => @tesco.id,

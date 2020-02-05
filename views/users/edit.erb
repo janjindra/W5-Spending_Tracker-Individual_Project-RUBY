@@ -1,19 +1,48 @@
-<h2>You can update your details here</h2>
+<h2>Please update your monthly budget for each spending category.</h2>
 
 
 <form action="/users/<%= @user.id %>" method="post" align="center">
 
-  <label for="name">Your Name:
-
-  <input id="amount_newtr" type="text" name="name" value="<%= @user.name %>" align="center">
-
-  </label><br><br>
-
-  <label for="budget">Set your budget:
-
-  <input id="amount_newtr" type="number" name="budget" value="<%= @user.budget %>" align="center">
-
+<label for="name">Your Name:
+<input id="amount_newtr" type="text" name="name" value="<%= @user.name %>" align="center">
 </label>
-<br><br><br><br>
+<br><br>
+<label for="budget">Groceries budget:
+<input id="amount_newtr" type="number" name="budget_groceries" value="<%= @user.budget_groceries %>" align="center">
+</label>
+<br><br>
+<label for="budget">Shopping budget:
+<input id="amount_newtr" type="number" name="budget_shopping" value="<%= @user.budget_shopping %>" align="center">
+</label>
+<br><br>
+<label for="budget">Restaurants budget:
+<input id="amount_newtr" type="number" name="budget_restaurants" value="<%= @user.budget_restaurants %>" align="center">
+</label>
+<br><br>
+<label for="budget">Transport budget:
+<input id="amount_newtr" type="number" name="budget_transport" value="<%= @user.budget_transport %>" align="center">
+</label>
+<br><br>
+<label for="budget">Entertainment budget:
+<input id="amount_newtr" type="number" name="budget_entertainment" value="<%= @user.budget_entertainment %>" align="center">
+</label>
+<br><br>
+<label for="budget">Health budget:
+<input id="amount_newtr" type="number" name="budget_health" value="<%= @user.budget_health %>" align="center">
+</label>
+<br><br>
+<label for="budget">Services budget:
+<input id="amount_newtr" type="number" name="budget_services" value="<%= @user.budget_services %>" align="center">
+</label>
+<br><br>
+<label for="budget">Utilities budget:
+<input id="amount_newtr" type="number" name="budget_utilities" value="<%= @user.budget_utilities %>" align="center">
+</label>
+<br><br>
+<label for="budget">Rent/House budget:
+<input id="amount_newtr" type="number" name="budget_rent" value="<%= @user.budget_rent %>" align="center">
+</label>
+
+<br><br>
   <input id="new_button" type='submit' value="Update Your Details">
 </form>

@@ -107,8 +107,6 @@ class Transaction
   end
 
 
-
-
   def Transaction.total_by_tag(label)
     sql = "SELECT sum(transactions.amount)
     FROM transactions
@@ -119,7 +117,24 @@ class Transaction
     return total_by_tag.map{|tr| tr}.first['sum'].to_f.round(2)
   end
 
-  def Transaction.find_month_num(month_num)
+  def Transaction.total_by_range(date1, date2) ####RANGE TOTAL
+    sql = "SELECT * FROM transactions"
+    transactions = SqlRunner.run( sql)
+    array_sum =[]
+    for transaction in transactions
+      transaction_time  = Time.parse(transaction['time']) #Time.parse(transaction.time)
+      date1_date  = Time.parse(date1)
+      date2_date  = Time.parse(date2)
+      if transaction_time >= date1_date && transaction_time <= date2_date
+        array_sum.push(transaction['amount'].to_i)
+    end
+    end
+    return array_sum.sum
+  end
+
+
+
+def Transaction.find_month_num(month_num)
     sql = "SELECT u.name as user_name, m.name as merchant_name,
     tr.amount,
     ta.label,
@@ -140,10 +155,15 @@ class Transaction
 
 
   def Transaction.user_budget()
-    sql = "SELECT budget FROM users WHERE id = 1"
+    sql = "SELECT (budget_groceries+budget_shopping+budget_restaurants+budget_transport+
+    budget_entertainment+budget_health+budget_services+budget_utilities+budget_rent) as budget
+    FROM users
+    WHERE id = 1" ###Hardcoded for the scope of this project
     result = SqlRunner.run( sql )
     return result.values.first.first.to_f.round(2)
   end
+
+
 
   def Transaction.budget_message(year, month) #TOTAL BY YEAR-MONTH combo
     balance = (Transaction.user_budget() - Transaction.total_by_yearmonth(year,month)).round(2)
@@ -202,28 +222,6 @@ class Transaction
     return distinct_months
   end
 
-  #
-  # def Transaction.distinct_months_num #numbers
-  #   distinct_months_num = []
-  #   array_of_all_transactions = Transaction.transactions_ordered_by_time()
-  #   for hash in array_of_all_transactions
-  #     if distinct_months_num.include?(hash['month_num'].strip) == false
-  #       distinct_months_num.push(hash['month_num'].strip)
-  #     end
-  #   end
-  #   return distinct_months_num
-  # end
-  #
-  # def Transaction.distinct_years
-  #   distinct_years = []
-  #   array_of_all_transactions = Transaction.transactions_ordered_by_time()
-  #   for hash in array_of_all_transactions
-  #     if distinct_years.include?(hash['year_num'].strip) == false
-  #       distinct_years.push(hash['year_num'].strip)
-  #     end
-  #   end
-  #   return distinct_years
-  # end
 
   def Transaction.distinct_yearmonths
     distinct_yearmonths = []

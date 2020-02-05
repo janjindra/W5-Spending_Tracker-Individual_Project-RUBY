@@ -1,3 +1,4 @@
+
 header  {
 background: #008B8B;
 padding: 10px;
@@ -95,6 +96,12 @@ div.background {
 div.container {
   display: flex;
   justify-content: center;
+}
+
+#budgetbreakdown {
+  display: flex;
+  justify-content: center;
+
 }
 
 #filter-barul {

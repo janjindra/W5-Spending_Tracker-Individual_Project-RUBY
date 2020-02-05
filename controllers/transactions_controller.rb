@@ -104,6 +104,7 @@ post '/transactions/analytics/range' do
   @budget = Transaction.user_budget
   # @message = Transaction.budget_message_tag(params[:label]) ##BY RANGE!!
   # @total_by_tag = Transaction.total_by_tag(params[:label]) ##BY RANGE!!
+  @total_by_range = Transaction.total_by_range(params[:date1], params[:date2]) ##BY RANGE!!
   erb(:"transactions/analytics-range")
 end
 
@@ -111,7 +112,8 @@ end
 get '/transactions/analytics/tag/:label/table' do
   @transactions_by_tag = Transaction.find_tag(params[:label])
   @total_by_tag = Transaction.total_by_tag(params[:label])
-  @budget = Transaction.user_budget
+  @budget = Transaction.user_budget #monthly budget across all categories
+  @tag_budget = User.all #monthly budget per tag (category)
   @message = Transaction.budget_message_tag(params[:label])
   @tags = Tag.all
   @yearmonths=Transaction.distinct_yearmonths

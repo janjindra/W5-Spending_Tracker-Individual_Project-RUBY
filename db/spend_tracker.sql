@@ -20,7 +20,15 @@ CREATE TABLE tags (
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255),
-  budget FLOAT
+  budget_groceries FLOAT,
+  budget_shopping FLOAT,
+  budget_restaurants FLOAT,
+  budget_transport FLOAT,
+  budget_entertainment FLOAT,
+  budget_health  FLOAT,
+  budget_services FLOAT,
+  budget_utilities FLOAT,
+  budget_rent FLOAT
 );
 
 CREATE TABLE transactions (

@@ -61,14 +61,26 @@
     <td><%= item['amount'] %></td>
     <td><%= item['time'] %></td>
     <td><%= item['label'] %></td>
+    <% @hack= item['label'] %>
     <td><img src="<%= item['t_logo'] %>" width="30" height="30" alt="Tag Logo"></td>
   </tr>
   <% end %>
 </table>
 
 <table class="tfooter"><tfoot><th>Category total: £<%=@total_by_tag%><br>
-Monthly Budget: £<%=@budget%></th></tfoot></table><br>
-<table class="tfooter"><tfoot><th><font color="red"><%=@message%></font></th></tfoot></table>
+Category Budget: £
+<% case @hack%>
+<% when "groceries"%><%=@tag_budget.first.budget_groceries%>
+<% when "shopping"%><%=@tag_budget.first.budget_shopping%>
+<% when "restaurants"%><%=@tag_budget.first.budget_restaurants%>
+<% when "transport"%><%=@tag_budget.first.budget_transport%>
+<% when "entertainment"%><%=@tag_budget.first.budget_entertainment%>
+<% when "health"%><%=@tag_budget.first.budget_health%>
+<% when "services"%><%=@tag_budget.first.budget_services%>
+<% when "utilities"%><%=@tag_budget.first.budget_utilities%>
+<% else %> <%=@tag_budget.first.budget_rent%>
+<% end %>
+</th></tfoot></table><br>
 
 <br><br>
 <br><br><br><br><br><br>
