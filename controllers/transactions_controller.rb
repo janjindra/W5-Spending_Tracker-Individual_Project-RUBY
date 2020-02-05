@@ -68,15 +68,6 @@ get '/transactions/analytics' do
   erb(:"transactions/analytics")
 end
 
-#### ***** TO BE DELETED ****** ###########
-#ANALYTICS - order by time:
-get '/transactions/analytics/month' do
-  @transactions_by_time = Transaction.transactions_ordered_by_time
-  # @month_names=Transaction.distinct_months
-  # @month_nums=Transaction.distinct_months_num
-  erb(:"transactions/analytics-month")
-end
-
 #ANALYTICS - filter month
 get '/transactions/analytics/month/:year/:month/table' do
   @transaction = Transaction.find_month_num(params[:year],params[:month])
@@ -110,7 +101,10 @@ post '/transactions/analytics/range' do
   @tags = Tag.all
   @merchants = Merchant.all
   @yearmonths=Transaction.distinct_yearmonths
-  erb(:"transactions/range")
+  @budget = Transaction.user_budget
+  # @message = Transaction.budget_message_tag(params[:label]) ##BY RANGE!!
+  # @total_by_tag = Transaction.total_by_tag(params[:label]) ##BY RANGE!!
+  erb(:"transactions/analytics-range")
 end
 
 #ANALYTICS - all transaction by tag (category)

@@ -149,7 +149,8 @@ ul {
 
 li {
   float: left;
-  border-right: 1px solid #bbb;
+  border-right: 0.5px solid #bbb;
+
 }
 
 li:last-child {
