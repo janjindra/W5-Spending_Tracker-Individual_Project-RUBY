@@ -32,9 +32,9 @@ get '/users/:id/edit' do
 end
 
 post '/users/:id' do
-@user = User.new(params)
-@user.update()
-redirect to("/users")
+  @user = User.new(params)
+  @user.update()
+  redirect to("/users")
 end
 
 #Deletion of users DISABLED for the scope of this project.

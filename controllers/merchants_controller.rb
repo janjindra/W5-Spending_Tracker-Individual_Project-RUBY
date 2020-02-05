@@ -14,10 +14,8 @@ end
 
 #Displays a Merchant form to submit a new Merchant
 get '/merchants/new' do
-  # @tags = Tag.all
-  @merchants = Merchant.all
-  # @transactions = Transaction.all
-  erb(:"merchants/new")
+    @merchants = Merchant.all
+    erb(:"merchants/new")
 end
 
 #Saves a new transaction to the DB
@@ -31,17 +29,14 @@ end
 #EDIT
 get '/merchants/:id/edit' do
   @merchant = Merchant.find(params[:id])
-  # @tags = Tag.all
   @merchants = Merchant.all
-  # @transactions = Transaction.all
   erb(:"merchants/edit")
 end
 
 post '/merchants/:id' do
-@merchant = Merchant.new(params)  #??????
+@merchant = Merchant.new(params)
 @merchant.update()
 redirect to("/merchants")
-# erb(:"merchants/update")
 end
 
 #DELETE

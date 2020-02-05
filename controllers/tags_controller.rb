@@ -35,7 +35,7 @@ get '/tags/:id/edit' do
 end
 
 post '/tags/:id' do
-@tag = Tag.new(params)  #??????
+@tag = Tag.new(params)
 @tag.update()
 redirect to("/tags")
 end

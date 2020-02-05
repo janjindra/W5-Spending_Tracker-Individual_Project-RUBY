@@ -2,8 +2,8 @@ require_relative('../db/sql_runner.rb')
 
 class Merchant
 
-attr_accessor(:name, :active, :logo)
-attr_reader(:id)
+  attr_accessor(:name, :active, :logo)
+  attr_reader(:id)
 
   def initialize (db_hash)
     @id = db_hash['id'].to_i if db_hash['id']
@@ -13,54 +13,47 @@ attr_reader(:id)
   end
 
 
-#CRUD:
-def save()
-  sql = "INSERT INTO merchants (name, active, logo)
-  VALUES ($1, $2, $3) RETURNING id"
-  values = [@name, @active, @logo]
-  merchants_data = SqlRunner.run(sql, values)
-  @id = merchants_data.first()['id'].to_i
-end
+  #CRUD:
+  def save()
+    sql = "INSERT INTO merchants (name, active, logo)
+    VALUES ($1, $2, $3) RETURNING id"
+    values = [@name, @active, @logo]
+    merchants_data = SqlRunner.run(sql, values)
+    @id = merchants_data.first()['id'].to_i
+  end
 
-def Merchant.all()
-  sql = "SELECT * FROM merchants"
-  merchants_data = SqlRunner.run(sql)
-  return merchants_data.map{|merchant| Merchant.new(merchant)}
-end
+  def Merchant.all()
+    sql = "SELECT * FROM merchants"
+    merchants_data = SqlRunner.run(sql)
+    return merchants_data.map{|merchant| Merchant.new(merchant)}
+  end
 
-def Merchant.delete_all
-  sql = "DELETE * from merchants"
-  SqlRunner.run(sql)
-end
+  def Merchant.delete_all
+    sql = "DELETE * from merchants"
+    SqlRunner.run(sql)
+  end
 
-def update()
-  sql = "UPDATE merchants SET (name, active, logo) = ( $1, $2, $3 ) WHERE id = $4"
+  def update()
+    sql = "UPDATE merchants SET (name, active, logo) = ( $1, $2, $3 ) WHERE id = $4"
     values = [@name, @active, @logo, @id]
     SqlRunner.run(sql, values)
-end
+  end
 
-def delete()
-  sql = "DELETE FROM merchants
-  WHERE id = $1"
-  values = [@id]
-  SqlRunner.run(sql, values)
-end
-#Other methods:
+  def delete()
+    sql = "DELETE FROM merchants
+    WHERE id = $1"
+    values = [@id]
+    SqlRunner.run(sql, values)
+  end
 
-def Merchant.find( id )
-sql = "SELECT * FROM merchants WHERE id = $1"
-values = [id]
-trans = SqlRunner.run( sql, values )
-result = Merchant.new( trans.first )
-return result
-end
+  #OTHER METHODS:
 
-# def Merchant.find_merchant_by_id(id)
-#   sql = "SELECT * FROM merchants
-#   WHERE id = $1"
-#   values = [id]
-#   full_details_for_an_id = SqlRunner.run(sql, values)
-#   return Merchant.new(full_details_for_an_id.first)
-# end
+  def Merchant.find( id )
+    sql = "SELECT * FROM merchants WHERE id = $1"
+    values = [id]
+    trans = SqlRunner.run( sql, values )
+    result = Merchant.new( trans.first )
+    return result
+  end
 
 end

@@ -50,7 +50,8 @@ class Transaction
     values = [@id]
     SqlRunner.run(sql, values)
   end
-  #Other Methods
+
+  #OTHER METHODS
 
   def merchant()
     sql = "SELECT * FROM merchants
@@ -77,7 +78,7 @@ class Transaction
     return result
   end
 
-
+  #All time totals
   def Transaction.total()
     sql = "SELECT sum(amount)
     FROM transactions"
@@ -85,17 +86,7 @@ class Transaction
     return total.values.first.first.to_f.round(2)
   end
 
-#total by month not needed -- we need year and month combo!
-  def Transaction.total_by_month(month_num)
-    sql = "SELECT sum(amount), EXTRACT(MONTH FROM time) as month
-    FROM transactions
-    WHERE EXTRACT(MONTH FROM time)= $1
-    GROUP BY month"
-    values = [month_num]
-    total_by_month = SqlRunner.run(sql,values)
-    return total_by_month.map{|tr| tr}.first['sum'].to_f.round(2)
-  end
-
+  #Total for year & month combo
   def Transaction.total_by_yearmonth(year, month)
     sql = "SELECT sum(amount), EXTRACT(MONTH FROM time) as month, EXTRACT(YEAR FROM time) as year
     FROM transactions
@@ -106,7 +97,7 @@ class Transaction
     return total_by_yearmonth.map{|tr| tr}.first['sum'].to_f.round(2)
   end
 
-
+  #Total by tag (spending category)
   def Transaction.total_by_tag(label)
     sql = "SELECT sum(transactions.amount)
     FROM transactions
@@ -117,6 +108,7 @@ class Transaction
     return total_by_tag.map{|tr| tr}.first['sum'].to_f.round(2)
   end
 
+  #Total spending within a range (user selection of the range)
   def Transaction.total_by_range(date1, date2) ####RANGE TOTAL
     sql = "SELECT * FROM transactions"
     transactions = SqlRunner.run( sql)
@@ -127,33 +119,12 @@ class Transaction
       date2_date  = Time.parse(date2)
       if transaction_time >= date1_date && transaction_time <= date2_date
         array_sum.push(transaction['amount'].to_i)
-    end
+      end
     end
     return array_sum.sum
   end
 
-
-
-def Transaction.find_month_num(month_num)
-    sql = "SELECT u.name as user_name, m.name as merchant_name,
-    tr.amount,
-    ta.label,
-    tr.time as time,
-    to_char(tr.time,'Month') as month_name,
-    EXTRACT(MONTH FROM tr.time) as month_num,
-    m.logo as m_logo,
-    ta.logo as t_logo
-    FROM transactions tr
-    INNER JOIN merchants m ON m.id=tr.merchant_id
-    INNER JOIN tags ta ON ta.id=tr.tag_id
-    INNER JOIN users u ON u.id=tr.user_id
-    WHERE EXTRACT(MONTH FROM tr.time)= $1"
-    values = [month_num]
-    trans = SqlRunner.run( sql, values )
-    return trans.map{|tr| tr}
-  end
-
-
+  #User budget is the sum of user's monthly budgets by across all spending categories
   def Transaction.user_budget()
     sql = "SELECT (budget_groceries+budget_shopping+budget_restaurants+budget_transport+
     budget_entertainment+budget_health+budget_services+budget_utilities+budget_rent) as budget
@@ -162,10 +133,10 @@ def Transaction.find_month_num(month_num)
     result = SqlRunner.run( sql )
     return result.values.first.first.to_f.round(2)
   end
+  
 
-
-
-  def Transaction.budget_message(year, month) #TOTAL BY YEAR-MONTH combo
+  #This message uses total by year-month combo
+  def Transaction.budget_message(year, month)
     balance = (Transaction.user_budget() - Transaction.total_by_yearmonth(year,month)).round(2)
     if balance < 100 && balance > 0
       return "WARNING! You are nearing your monthly budget. You have £#{balance.abs} left to spend!"
@@ -178,7 +149,8 @@ def Transaction.find_month_num(month_num)
     end
   end
 
-  def Transaction.budget_message_tag(label) #TOTAL BY TAG
+  #This message uses total by tag
+  def Transaction.budget_message_tag(label)
     balance = (Transaction.user_budget() - Transaction.total_by_tag(label)).round(2)
     if balance < 100 && balance > 0
       return "WARNING! You are nearing your monthly budget. You have £#{balance.abs} left to spend!"
@@ -191,17 +163,14 @@ def Transaction.find_month_num(month_num)
     end
   end
 
-  #Analytics
+  #Analytics - list of all transactions by time with full details
   def Transaction.transactions_ordered_by_time()
     sql = "SELECT u.name as user_name, m.name as merchant_name,
-    tr.amount,
-    ta.label,
-    tr.time as time,
+    tr.amount, ta.label, tr.time as time,
     to_char(tr.time,'Month') as month_name,
     EXTRACT(MONTH FROM tr.time) as month_num,
     EXTRACT(YEAR FROM tr.time) as year_num,
-    m.logo as m_logo,
-    ta.logo as t_logo
+    m.logo as m_logo, ta.logo as t_logo
     FROM transactions tr
     INNER JOIN merchants m ON m.id=tr.merchant_id
     INNER JOIN tags ta ON ta.id=tr.tag_id
@@ -222,7 +191,6 @@ def Transaction.find_month_num(month_num)
     return distinct_months
   end
 
-
   def Transaction.distinct_yearmonths
     distinct_yearmonths = []
     array_of_all_transactions = Transaction.transactions_ordered_by_time()
@@ -234,12 +202,10 @@ def Transaction.find_month_num(month_num)
     return distinct_yearmonths
   end
 
-#All transactions for a given year & month combo
+  #All transactions for a given year & month combo
   def Transaction.find_month_num(year_num, month_num)
     sql = "SELECT u.name as user_name, m.name as merchant_name,
-    tr.amount,
-    ta.label,
-    tr.time as time,
+    tr.amount, ta.label, tr.time as time,
     to_char(tr.time,'Month') as month_name,
     EXTRACT(MONTH FROM tr.time) as month_num,
     EXTRACT(YEAR FROM tr.time) as year_num,
@@ -256,24 +222,21 @@ def Transaction.find_month_num(month_num)
   end
 
   #All transactions for a given label (tag)
-    def Transaction.find_tag(label)
-      sql = "SELECT u.name as user_name, m.name as merchant_name,
-      tr.amount,
-      ta.label,
-      tr.time as time,
-      m.logo as m_logo,
-      ta.logo as t_logo
-      FROM transactions tr
-      INNER JOIN merchants m ON m.id=tr.merchant_id
-      INNER JOIN tags ta ON ta.id=tr.tag_id
-      INNER JOIN users u ON u.id=tr.user_id
-      WHERE ta.label = $1"
-      values = [label]
-      trans = SqlRunner.run( sql, values )
-      return trans.map{|tr| tr}
-    end
+  def Transaction.find_tag(label)
+    sql = "SELECT u.name as user_name, m.name as merchant_name,
+    tr.amount, ta.label, tr.time as time, m.logo as m_logo,
+    ta.logo as t_logo
+    FROM transactions tr
+    INNER JOIN merchants m ON m.id=tr.merchant_id
+    INNER JOIN tags ta ON ta.id=tr.tag_id
+    INNER JOIN users u ON u.id=tr.user_id
+    WHERE ta.label = $1"
+    values = [label]
+    trans = SqlRunner.run( sql, values )
+    return trans.map{|tr| tr}
+  end
 
-#All transactions created within a time range selected by the user.
+  #All transactions created within a time range selected by the user.
   def Transaction.time(date1, date2)
     sql = "SELECT * FROM transactions"
     transactions = SqlRunner.run( sql)

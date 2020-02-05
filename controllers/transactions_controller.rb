@@ -12,10 +12,6 @@ also_reload( '../models/*' )
 get '/transactions' do
   @transactions = Transaction.all
   @total = Transaction.total
-  @transactions_by_time = Transaction.transactions_ordered_by_time
-  #@transactions_by_time = Transaction.transactions_ordered_by_time
-  # @budget = Transaction.user_budget
-  # @message = Transaction.budget_message
   erb (:"transactions/index")
 end
 
@@ -45,10 +41,9 @@ get '/transactions/:id/edit' do
 end
 
 post '/transactions/:id' do
-@transaction = Transaction.new(params)  #??????
+@transaction = Transaction.new(params)
 @transaction.update()
 redirect to("/transactions")
-# erb(:"transactions/update")
 end
 
 #DELETE:
@@ -63,7 +58,6 @@ get '/transactions/analytics' do
   @transactions_by_time = Transaction.transactions_ordered_by_time
   @month_names=Transaction.distinct_months
   @tags = Tag.all
-  # @year_names=Transaction.distinct_years
   @total = Transaction.total
   @yearmonths=Transaction.distinct_yearmonths
   erb(:"transactions/analytics")
@@ -73,8 +67,6 @@ end
 get '/transactions/analytics/month/:year/:month/table' do
   @transaction = Transaction.find_month_num(params[:year],params[:month])
   @transactions_by_time = Transaction.transactions_ordered_by_time
-  # @month_names=Transaction.distinct_months
-  # @year_names=Transaction.distinct_years
   @yearmonths=Transaction.distinct_yearmonths
   @total = Transaction.total
   @total_by_yearmonth = Transaction.total_by_yearmonth(params[:year],params[:month])
@@ -87,10 +79,7 @@ end
 #ANALYTICS - all transaction by time, newest first.
 get '/transactions/analytics/allbytime' do
   @transactions_by_time = Transaction.transactions_ordered_by_time
-  # @month_names=Transaction.distinct_months
   @total = Transaction.total
-  # @budget = Transaction.user_budget
-  # @message = Transaction.budget_message(params[:month])
   @yearmonths=Transaction.distinct_yearmonths
   @tags = Tag.all
   erb(:"transactions/analytics-bytime")
@@ -103,8 +92,6 @@ post '/transactions/analytics/range' do
   @merchants = Merchant.all
   @yearmonths=Transaction.distinct_yearmonths
   @budget = Transaction.user_budget
-  # @message = Transaction.budget_message_tag(params[:label]) ##BY RANGE!!
-  # @total_by_tag = Transaction.total_by_tag(params[:label]) ##BY RANGE!!
   @total_by_range = Transaction.total_by_range(params[:date1], params[:date2]) ##BY RANGE!!
   erb(:"transactions/analytics-range")
 end
