@@ -109,20 +109,23 @@ class Transaction
   end
 
   #Total spending within a range (user selection of the range)
-  def Transaction.total_by_range(date1, date2) ####RANGE TOTAL
+  def Transaction.total_by_range(from, to)
     sql = "SELECT * FROM transactions"
-    transactions = SqlRunner.run( sql)
+    transactions_array = SqlRunner.run(sql)
     array_sum =[]
-    for transaction in transactions
-      transaction_time  = Time.parse(transaction['time']) #Time.parse(transaction.time)
-      date1_date  = Time.parse(date1)
-      date2_date  = Time.parse(date2)
-      if transaction_time >= date1_date && transaction_time <= date2_date
-        array_sum.push(transaction['amount'].to_i)
+    for hash in transactions_array
+      transaction_timing  = Time.parse(hash['time'])
+      from_timestamp  = Time.parse(from)
+      to_timestamp  = Time.parse(to)
+      if (transaction_timing <= to_timestamp &&
+        transaction_timing >= from_timestamp)
+        array_sum.push(hash['amount'].to_i)
+
       end
     end
     return array_sum.sum
   end
+
 
   #User budget is the sum of user's monthly budgets by across all spending categories
   def Transaction.user_budget()
@@ -133,7 +136,7 @@ class Transaction
     result = SqlRunner.run( sql )
     return result.values.first.first.to_f.round(2)
   end
-  
+
 
   #This message uses total by year-month combo
   def Transaction.budget_message(year, month)

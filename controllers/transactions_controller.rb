@@ -92,7 +92,7 @@ post '/transactions/analytics/range' do
   @merchants = Merchant.all
   @yearmonths=Transaction.distinct_yearmonths
   @budget = Transaction.user_budget
-  @total_by_range = Transaction.total_by_range(params[:date1], params[:date2]) ##BY RANGE!!
+  @total_by_range = Transaction.total_by_range(params[:date1], params[:date2])
   erb(:"transactions/analytics-range")
 end
 
