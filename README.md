@@ -4,7 +4,7 @@
 
 Spending Tracker app allows you to track your own spending, given a set budget. It's designed to help you to manage your finances effectively. Set your own monthly budget, record all your spending and follow your analytics.
 
-![Screenshot](screenshot.png)
+![Screenshot](WelcomePage.png)
 
 #### Set up / Running the project
 ###### Front-end:
