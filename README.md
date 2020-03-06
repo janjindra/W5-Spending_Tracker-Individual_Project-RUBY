@@ -59,3 +59,5 @@ The user should be able to filter their view of transactions, for example, to vi
 * To change the user: \c spend_tracker 
 * You are now ready to run any SQL queries (put semicolon at the end of any query).
 
+## Attachment - Presentation Slides
+![SpeningTracker Project Presentation slides](./public/images/ProjectW5ppt.pptx)
