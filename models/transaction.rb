@@ -118,7 +118,7 @@ class Transaction
       from_timestamp  = Time.parse(from)
       to_timestamp  = Time.parse(to)
       if (transaction_timing <= to_timestamp &&
-        transaction_timing >= from_timestamp)
+        transaction_timing >= to_timestamp)
         array_sum.push(hash['amount'].to_i)
 
       end
@@ -138,6 +138,7 @@ class Transaction
   end
 
 
+
   #This message uses total by year-month combo
   def Transaction.budget_message(year, month)
     balance = (Transaction.user_budget() - Transaction.total_by_yearmonth(year,month)).round(2)
@@ -151,6 +152,23 @@ class Transaction
       return "WARNING! You are £#{balance.abs} over your budget."
     end
   end
+
+# PSEUDOCODE
+# function budget_message (year (integer), month (integer))
+  # calculate_balance = ( users budget ) - ( total spend by month )
+  # round the balance to 2 decimal places
+  # if calculate_balance > 0 and < 100
+    # print "WARNING! You are nearing your monthly budget."
+  # elsif calculate_balance > 0
+    # print "COOL! You have £#{calculate_balance} left to spend!"
+  # elsif calculate_balance == 0
+    # print "You've just used up all your budget!"
+  # else
+    # print "WARNING! You are £#{calculate_balance} over your budget"
+  # end
+# end
+
+
 
   #This message uses total by tag
   def Transaction.budget_message_tag(label)
