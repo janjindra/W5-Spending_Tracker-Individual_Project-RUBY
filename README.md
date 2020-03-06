@@ -1,6 +1,6 @@
 # Spending Tracker
 ## Week 5 Individual Project @ CodeClan
-### ( Jan 31, 2020 - Feb 6, 2020)
+### (Jan 31, 2020 - Feb 6, 2020)
 
 Spending Tracker app allows you to track your own spending, given a set budget. It's designed to help you to manage your finances effectively. Set your own monthly budget, record all your spending and follow your analytics.
 
@@ -30,30 +30,30 @@ The Analytics tab in the navigation bar allows you to see your transactions base
 ## Project Brief (as given by CodeClan):
 Build an app that allows a user to track their spending.
 
-###### Minimum Viable Product requirements (MVP):
+#### Minimum Viable Product requirements (MVP):
 The app should allow the user to create and edit merchants, e.g. Tesco, Amazon, ScotRail
 The app should allow the user to create and edit tags for their spending, e.g. groceries, entertainment, transport
 The user should be able to assign tags and merchants to a transaction, as well as an amount spent on each transaction.
 The app should display all the transactions a user has made in a single view, with each transaction’s amount, merchant and tag, and a total for all transactions.
 
-###### Inspired by:
+#### Inspired by:
 Monzo, MoneyDashboard, lots of mobile/online banking apps
 
-###### Possible Extensions
+#### Possible Extensions
 The user should be able to mark Merchants and Tags as deactivated. Users will not be able to choose deactivated merchants/tags when creating a transaction.
 Transactions should have a timestamp, and the user should be able to view transactions sorted by the time they took place.
 The user should be able to supply a budget, and the app should alert the user somehow when when they are nearing this budget or have gone over it.
 The user should be able to filter their view of transactions, for example, to view all transactions in a given month, or view all spending on groceries.
 
-#### Set up / Running the project
-###### Front-end:
+## Set up / Running the project
+##### Front-end:
 * Reload the PSQL DB: psql -d spend_tracker -f db/spend_tracker.sql
 * Load the seeds: ruby db/seeds.rb
 * Exit the pry: !!!
 * Start the Spending tracker app: ruby app.rb  
 * The app will be running on the port 4567 (http://localhost:4567/)
 * To stop running the Spending tracker app: Control+C 
-###### Back-end (PostgresSQL):
+##### Back-end (PostgresSQL):
 * Command+T to open a new window in the terminal.
 * To switch to the PSQL mode, type: sql
 * To change the user: \c spend_tracker 
